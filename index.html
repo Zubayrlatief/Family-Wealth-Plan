@@ -264,13 +264,13 @@
       <div class="sliders">
         <div class="slider">
           <label>Bond balance today <output id="o-bond"></output></label>
-          <input type="range" id="in-bond" min="300000" max="1500000" step="25000" value="850000" aria-label="Bond balance today">
-          <div class="hint">Check the latest Standard Bank statement</div>
+          <input type="range" id="in-bond" min="300000" max="1500000" step="1000" value="1137218" aria-label="Bond balance today">
+          <div class="hint">R1 137 218 on the 28 May 2026 statement</div>
         </div>
         <div class="slider">
           <label>Bond interest rate <output id="o-rate"></output></label>
-          <input type="range" id="in-rate" min="8" max="13.5" step="0.25" value="11" aria-label="Bond interest rate">
-          <div class="hint">Prime-linked — confirm on the statement</div>
+          <input type="range" id="in-rate" min="8" max="13.5" step="0.01" value="10.56" aria-label="Bond interest rate">
+          <div class="hint">10.56% since 29 May 2026 (prime 10.50%)</div>
         </div>
         <div class="slider">
           <label>GEPF pension estimate <output id="o-pension"></output></label>
@@ -288,7 +288,7 @@
 
   <section>
     <h2>The bond is the battle</h2>
-    <p class="sub">Every month the bond survives past December 2030 costs the retirement plan R15,600. Paying it off converts R18,140 of rental income into nearly pure profit — a guaranteed, tax-free return no investment matches at this risk level.</p>
+    <p class="sub">The 28 May 2026 statement shows R1,137,218 owing at 10.56% with 139 months to run — left alone, the bond only dies in December 2037, seven years after Sumaya retires. Every rand prepaid earns a guaranteed 10.56% after tax, and every month it survives past December 2030 costs the retirement plan R15,315.</p>
     <div class="chart-card">
       <div class="legend" id="legend-bond"></div>
       <div class="chart-box" id="chart-bond"></div>
@@ -339,7 +339,7 @@
   </section>
 
   <footer>
-    <p><strong>Model assumptions:</strong> salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Stated household inflow of R93,750 exceeds itemised sources by R2,410, shown as "Other".</p>
+    <p><strong>Model assumptions:</strong> bond facts from the 28 May 2026 Standard Bank statement — R1,137,218 outstanding at 10.56%, instalment R14,325.95, with the R989 service fee and homeowner's insurance kept inside household expenses; salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Stated household inflow of R93,750 exceeds itemised sources by R2,410, shown as "Other".</p>
     <p><strong>This is an educational planning model, not financial advice.</strong> Claude is not a licensed financial services provider under FAIS. Confirm the pension with GEPF, the bond terms with Standard Bank, and any investment or retirement decision with a licensed adviser.</p>
   </footer>
 </div>
@@ -355,7 +355,7 @@
   var EXTRA_START = 6;                       // Jan 2027
   var INFL = 0.05, RET = 0.09;
   var MOTHER_SAL = 59000, Z_SAL = 13200, RENT0 = 18140, OTHER_INC = 2410;
-  var NONBOND_EXP = 49221, FOOD_SAVE = 10714, BOND_PAY = 15600;
+  var NONBOND_EXP = 50495, FOOD_SAVE = 10714, BOND_PAY = 14326;
   var START_ASSETS = 89000;
 
   var css = function (v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); };
@@ -579,10 +579,10 @@
       ["Other / unitemised", 2410], ["Maya Baker bread", 1000]
     ];
     var expense = [
-      ["Bond (Standard Bank)", 15600], ["Groceries", 11475], ["Discovery medical", 7407],
+      ["Bond + insurance (Std Bank)", 15315], ["Groceries", 11475], ["Discovery medical", 7407],
       ["Takeaways & restaurants", 4919], ["SBSA DebiCheck", 3592], ["Oasis Crescent", 3500],
       ["Virgin Active", 1575], ["Vox Telecom", 1295], ["Bryte insurance", 1207],
-      ["Everything else", 14251]
+      ["Everything else", 14536]
     ];
     function render(hostId, title, rows, color, totalLabel, total) {
       var max = Math.max.apply(null, rows.map(function (r) { return r[1]; }));
@@ -601,7 +601,7 @@
   function decisions() {
     var items = [
       ["Call GEPF this week — 0800 117 669", "Every retirement number on this page swings on one unconfirmed figure: Sumaya’s pension. A R10,000/month difference in that estimate changes the entire plan more than any investment decision could. It costs one phone call. While on with Parliament HR, confirm GEMS medical aid continuation after retirement.", "Removes the biggest unknown in the whole model — free"],
-      ["Kill the bond before December 2030", "The bond is a guaranteed ~11% after-tax return — no fund reliably beats that at zero risk. R5,000/month extra from January 2027 clears it around retirement; R8,000/month clears it comfortably before. The day it dies, R18,140 of rent becomes nearly pure profit and Mum’s retirement largely funds itself. Keep the R40,000 cash as an emergency float until the GEPF figure is known — then decide whether part of it goes into the bond.", "≈ R15,600/mo freed at exactly the moment the salary stops"],
+      ["Kill the bond by retirement — gratuity as the final blow", "R1,137,218 owing at 10.56% (28 May 2026 statement) with 139 months to run. Extra payments of R5,000–8,000/month from January 2027 cut the balance at retirement to roughly R360,000–540,000 — small enough to settle in one move from the tax-free portion of the GEPF gratuity. Clearing it by 2030 without the gratuity would take ~R14,000/month extra. Every rand prepaid earns a guaranteed 10.56% after tax; keep the R40,000 cash as an emergency float until the GEPF figure is known.", "≈ R15,315/mo freed at exactly the moment the salary stops"],
       ["Do not buy the vehicle yet", "The bakkie costs R8,150–9,300/month before it earns a rand — almost exactly the entire bond-acceleration budget. The pattern in the vehicle discussion (R160k → R217k → R300k, all before revenue) is the same evaluation loop, wearing wheels. Rule: the business pays for the vehicle, never the reverse.", "Protects ≈ R100k+/yr from premature commitment"],
       ["Fix the TFSA in twenty minutes", "Sell Satrix Shariah Top 40 and split the proceeds between Satrix Top 40 and S&P 500; switch every dividend from cash to reinvest; set a R1,000/month debit order. The R500,000 lifetime limit makes early months disproportionately valuable — a rand contributed at 21 has 40+ years of tax-free compounding ahead of it. Stop contributing to the taxable ZAR account entirely.", "Decades of tax-free compounding, started this week"],
       ["Food discipline is worth R128,568 a year", "Groceries (R11,475) plus takeaways (R4,919) trimmed to a planned budget releases R10,714/month — which funds the entire bond acceleration and the TFSA debit order with change. It’s the only line on the statement that moves this much without anyone earning more.", "+R10,714/mo — funds decisions 2 and 4 entirely"],
