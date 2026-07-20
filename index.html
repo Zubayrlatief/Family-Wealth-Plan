@@ -1,0 +1,751 @@
+<meta charset="utf-8">
+<title>Family Wealth Plan</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f4f8fc;
+    --surface: #ffffff;
+    --ink: #2a3542;
+    --ink-2: #5c6875;
+    --muted: #939daa;
+    --grid: #e9eef5;
+    --baseline: #d3dbe4;
+    --border: rgba(42,68,105,0.09);
+    --accent: #4a90e2;
+    --s-drift: #9aa5b1;
+    --s-disc: #4a90e2;
+    --s-build: #35b58c;
+    --seg-pension: #4a90e2;
+    --seg-rent: #35b58c;
+    --seg-bread: #f2b04e;
+    --good: #34ad63;
+    --good-text: #1e7d47;
+    --warning: #f5c04a;
+    --critical: #e26d6d;
+    --band: rgba(74,144,226,0.08);
+    --shadow: 0 1px 3px rgba(30,50,80,0.05), 0 10px 28px rgba(30,50,80,0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --bg: #171a1f;
+      --surface: #21252c;
+      --ink: #f2f5f8;
+      --ink-2: #c3cbd4;
+      --muted: #8b95a1;
+      --grid: #313640;
+      --baseline: #3d434e;
+      --border: rgba(255,255,255,0.09);
+      --accent: #6aa5e8;
+      --s-drift: #8b95a1;
+      --s-disc: #6aa5e8;
+      --s-build: #3cc79a;
+      --seg-pension: #6aa5e8;
+      --seg-rent: #3cc79a;
+      --seg-bread: #e0a24a;
+      --good: #34ad63;
+      --good-text: #4cc47a;
+      --band: rgba(106,165,232,0.12);
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #171a1f;
+    --surface: #21252c;
+    --ink: #f2f5f8;
+    --ink-2: #c3cbd4;
+    --muted: #8b95a1;
+    --grid: #313640;
+    --baseline: #3d434e;
+    --border: rgba(255,255,255,0.09);
+    --accent: #6aa5e8;
+    --s-drift: #8b95a1;
+    --s-disc: #6aa5e8;
+    --s-build: #3cc79a;
+    --seg-pension: #6aa5e8;
+    --seg-rent: #3cc79a;
+    --seg-bread: #e0a24a;
+    --good: #34ad63;
+    --good-text: #4cc47a;
+    --band: rgba(106,165,232,0.12);
+    --shadow: none;
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f4f8fc;
+    --surface: #ffffff;
+    --ink: #2a3542;
+    --ink-2: #5c6875;
+    --muted: #939daa;
+    --grid: #e9eef5;
+    --baseline: #d3dbe4;
+    --border: rgba(42,68,105,0.09);
+    --accent: #4a90e2;
+    --s-drift: #9aa5b1;
+    --s-disc: #4a90e2;
+    --s-build: #35b58c;
+    --seg-pension: #4a90e2;
+    --seg-rent: #35b58c;
+    --seg-bread: #f2b04e;
+    --good: #34ad63;
+    --good-text: #1e7d47;
+    --warning: #f5c04a;
+    --critical: #e26d6d;
+    --band: rgba(74,144,226,0.08);
+    --shadow: 0 1px 3px rgba(30,50,80,0.05), 0 10px 28px rgba(30,50,80,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    margin: 0;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ---------- masthead ---------- */
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 400; margin: 6px 0 8px; letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .lede { color: var(--ink-2); max-width: 62ch; margin: 0 0 6px; font-size: 15px; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400; font-size: 21px; margin: 0 0 2px;
+  }
+  .sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; max-width: 70ch; }
+
+  section { margin-top: 44px; }
+
+  /* ---------- KPI tiles ---------- */
+  .kpis {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px; margin-top: 26px;
+  }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 18px; box-shadow: var(--shadow);
+  }
+  .kpi .k-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .kpi .k-value { font-size: 24px; font-weight: 650; margin-top: 4px; letter-spacing: -0.01em; }
+  .kpi .k-note { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 600; border-radius: 99px; padding: 2px 9px; margin-top: 8px;
+  }
+  .pill.good { background: rgba(52,173,99,0.13); color: var(--good-text); }
+  .pill.warn { background: rgba(245,192,74,0.20); color: var(--ink); }
+  .pill.crit { background: rgba(226,109,109,0.14); color: var(--critical); }
+
+  /* ---------- controls ---------- */
+  .panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 22px; box-shadow: var(--shadow);
+  }
+  .scenarios { display: flex; flex-wrap: wrap; gap: 8px; }
+  .scen-btn {
+    flex: 1 1 200px; text-align: left; cursor: pointer;
+    background: transparent; border: 1px solid var(--border); border-radius: 12px;
+    padding: 13px 15px; color: var(--ink); font: inherit;
+  }
+  .scen-btn:hover { background: rgba(74,144,226,0.06); }
+  .scen-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .scen-btn[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: rgba(74,144,226,0.07); }
+  .scen-name { font-weight: 650; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .scen-desc { font-size: 12px; color: var(--ink-2); margin-top: 3px; }
+
+  .sliders {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px 24px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--grid);
+  }
+  .slider label { font-size: 12px; font-weight: 600; color: var(--ink-2); display: flex; justify-content: space-between; gap: 8px; }
+  .slider label output { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .slider input[type=range] { width: 100%; accent-color: var(--accent); margin-top: 8px; }
+  .slider .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ---------- charts ---------- */
+  .chart-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 22px 22px 14px; margin-top: 14px; box-shadow: var(--shadow);
+  }
+  .chart-box { position: relative; }
+  .chart-box svg { display: block; width: 100%; height: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-2); margin: 4px 0 10px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .tooltip {
+    position: absolute; pointer-events: none; z-index: 5; display: none;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 7px;
+    padding: 8px 11px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+    min-width: 150px;
+  }
+  .tooltip .t-title { font-weight: 650; margin-bottom: 4px; }
+  .tooltip .t-row { display: flex; justify-content: space-between; gap: 14px; }
+  .tooltip .t-row .val { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
+  .tooltip .t-row .name { color: var(--ink-2); display: inline-flex; align-items: center; gap: 5px; }
+
+  details.tableview { margin-top: 8px; border-top: 1px solid var(--grid); padding-top: 8px; }
+  details.tableview summary { font-size: 12px; color: var(--muted); cursor: pointer; }
+  details.tableview table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+  details.tableview th, details.tableview td {
+    text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--grid);
+    font-variant-numeric: tabular-nums;
+  }
+  details.tableview th:first-child, details.tableview td:first-child { text-align: left; }
+  details.tableview th { color: var(--muted); font-weight: 600; }
+
+  /* ---------- budget bars ---------- */
+  .budget { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 720px) { .budget { grid-template-columns: 1fr; } }
+  .bar-list h3 { font-size: 13px; font-weight: 650; margin: 0 0 10px; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; }
+  .bar-row { display: grid; grid-template-columns: 130px 1fr 74px; align-items: center; gap: 10px; padding: 4px 0; font-size: 13px; }
+  .bar-row .b-label { color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-row .b-track { height: 14px; border-radius: 7px; background: rgba(147,157,170,0.12); overflow: hidden; }
+  .bar-row .b-fill { height: 100%; border-radius: 7px; }
+  .bar-row .b-val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 12px; }
+  .bar-row.total { border-top: 1px solid var(--grid); margin-top: 6px; padding-top: 8px; font-weight: 650; }
+  .bar-row.total .b-label { color: var(--ink); }
+
+  /* ---------- decisions ---------- */
+  .decision { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--grid); }
+  .decision:last-child { border-bottom: none; }
+  .decision .d-num {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 650; font-size: 13px; color: var(--ink-2); margin-top: 2px;
+  }
+  .decision h3 { margin: 0 0 4px; font-size: 15px; font-weight: 650; }
+  .decision p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 68ch; }
+  .decision .impact { font-size: 12px; font-weight: 600; color: var(--good-text); margin-top: 5px; }
+
+  /* ---------- checklist ---------- */
+  .check { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--grid); }
+  .check:last-child { border-bottom: none; }
+  .check input { width: 17px; height: 17px; margin-top: 2px; accent-color: var(--good); cursor: pointer; }
+  .check label { font-size: 14px; cursor: pointer; }
+  .check label small { display: block; color: var(--muted); font-size: 12px; }
+  .check input:checked + label { color: var(--muted); text-decoration: line-through; }
+  .check input:checked + label small { text-decoration: line-through; }
+
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--grid); font-size: 12px; color: var(--muted); max-width: 78ch; }
+  footer p { margin: 0 0 8px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .b-fill { transition: width 0.35s ease; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Private · Family planning model · July 2026</div>
+    <h1>Our Family Wealth Plan</h1>
+    <p class="lede">One household, two builders: <strong>Sumaya, 55</strong>, retiring from Parliament around <strong>December 2030</strong>, and <strong>Zubayr, 21</strong>, building toward <strong>R150k–200k/month by age 30</strong>. Household inflow <strong>R93,750/mo</strong>, expenses <strong>R64,821/mo</strong>. This page models three ways the next nine years can go — adjust the unknowns below and watch every number update.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <h2>Choose a path, set the unknowns</h2>
+    <p class="sub">Three scenarios share the same household facts and differ only in behaviour. Two numbers are still unconfirmed — the bond balance and the GEPF pension — so they're sliders, not assumptions buried in a spreadsheet.</p>
+    <div class="panel">
+      <div class="scenarios" id="scenarios" role="group" aria-label="Scenario"></div>
+      <div class="sliders">
+        <div class="slider">
+          <label>Bond balance today <output id="o-bond"></output></label>
+          <input type="range" id="in-bond" min="300000" max="1500000" step="25000" value="850000" aria-label="Bond balance today">
+          <div class="hint">Check the latest Standard Bank statement</div>
+        </div>
+        <div class="slider">
+          <label>Bond interest rate <output id="o-rate"></output></label>
+          <input type="range" id="in-rate" min="8" max="13.5" step="0.25" value="11" aria-label="Bond interest rate">
+          <div class="hint">Prime-linked — confirm on the statement</div>
+        </div>
+        <div class="slider">
+          <label>GEPF pension estimate <output id="o-pension"></output></label>
+          <input type="range" id="in-pension" min="5000" max="35000" step="1000" value="15000" aria-label="GEPF monthly pension estimate">
+          <div class="hint">Unknown until you call 0800 117 669</div>
+        </div>
+        <div class="slider">
+          <label>Builder side income (12-mo target) <output id="o-side"></output></label>
+          <input type="range" id="in-side" min="5000" max="60000" step="2500" value="25000" aria-label="Builder scenario side income target">
+          <div class="hint">AI automation / high-ticket sales ramp</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The bond is the battle</h2>
+    <p class="sub">Every month the bond survives past December 2030 costs the retirement plan R15,600. Paying it off converts R18,140 of rental income into nearly pure profit — a guaranteed, tax-free return no investment matches at this risk level.</p>
+    <div class="chart-card">
+      <div class="legend" id="legend-bond"></div>
+      <div class="chart-box" id="chart-bond"></div>
+      <details class="tableview"><summary>Table view — bond balance at each December</summary><div id="table-bond"></div></details>
+    </div>
+  </section>
+
+  <section>
+    <h2>Mum's first month of retirement — January 2031</h2>
+    <p class="sub">Her target is R25,000–35,000/month. Rental income already does most of the work; the pension figure and the bond decide whether she lands inside the band.</p>
+    <div class="chart-card">
+      <div class="legend" id="legend-mum"></div>
+      <div class="chart-box" id="chart-mum"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Household investable assets to May 2035</h2>
+    <p class="sub">TFSA, Oasis Crescent, Discovery savings, gold and new investing combined, growing at 9% nominal. The gap between the lines is the price of drifting — same family, same salaries, different habits.</p>
+    <div class="chart-card">
+      <div class="legend" id="legend-assets"></div>
+      <div class="chart-box" id="chart-assets"></div>
+      <details class="tableview"><summary>Table view — investable assets at each December</summary><div id="table-assets"></div></details>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where the money goes today</h2>
+    <p class="sub">From the March–May 2026 Standard Bank statements. Groceries plus takeaways run R16,394/month — the single most controllable line in the whole plan.</p>
+    <div class="chart-card">
+      <div class="budget">
+        <div class="bar-list" id="income-bars"></div>
+        <div class="bar-list" id="expense-bars"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The seven decisions, ranked</h2>
+    <p class="sub">More than fifteen business ideas were evaluated this year and none executed. These are the moves that actually change the landscape, in order of leverage per rand and per hour.</p>
+    <div class="panel" id="decisions"></div>
+  </section>
+
+  <section>
+    <h2>This week</h2>
+    <p class="sub">Ticks are saved on this device. Everything here takes a phone call or twenty minutes — none of it needs more research.</p>
+    <div class="panel" id="checklist"></div>
+  </section>
+
+  <footer>
+    <p><strong>Model assumptions:</strong> salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Stated household inflow of R93,750 exceeds itemised sources by R2,410, shown as "Other".</p>
+    <p><strong>This is an educational planning model, not financial advice.</strong> Claude is not a licensed financial services provider under FAIS. Confirm the pension with GEPF, the bond terms with Standard Bank, and any investment or retirement decision with a licensed adviser.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- constants ---------- */
+  var START = { y: 2026, m: 7 };            // month index 0 = July 2026
+  var N = 107;                               // through May 2035
+  var RETIRE_M = 53;                         // Dec 2030 — last salary month
+  var EXTRA_START = 6;                       // Jan 2027
+  var INFL = 0.05, RET = 0.09;
+  var MOTHER_SAL = 59000, Z_SAL = 13200, RENT0 = 18140, OTHER_INC = 2410;
+  var NONBOND_EXP = 49221, FOOD_SAVE = 10714, BOND_PAY = 15600;
+  var START_ASSETS = 89000;
+
+  var css = function (v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); };
+
+  var SCEN = [
+    { key: "drift", name: "Drift", colorVar: "--s-drift",
+      desc: "Keep everything as-is. No extra bond payments, spending unchanged, ~30% of surplus actually saved.",
+      extra: 0, food: false, saveRate: 0.30, mayaTarget: 1000, mayaBy: 0, side: false },
+    { key: "disc", name: "Discipline", colorVar: "--s-disc",
+      desc: "Food discipline (+R10,714/mo), R5,000/mo extra into the bond from Jan 2027, 75% of surplus invested.",
+      extra: 5000, food: true, saveRate: 0.75, mayaTarget: 2500, mayaBy: 18, side: false },
+    { key: "build", name: "Builder", colorVar: "--s-build",
+      desc: "Discipline plus Zubayr lands a side income (slider below), R8,000/mo extra into the bond, 80% invested.",
+      extra: 8000, food: true, saveRate: 0.80, mayaTarget: 5000, mayaBy: 30, side: true }
+  ];
+
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function ymOf(i) { var t = (START.m - 1) + i; return { y: START.y + Math.floor(t / 12), m: t % 12 }; }
+  function labelOf(i) { var d = ymOf(i); return MONTHS[d.m] + " " + d.y; }
+
+  function fmtR(v) {
+    var neg = v < 0; v = Math.round(Math.abs(v));
+    var s = String(v).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return (neg ? "−R" : "R") + s;
+  }
+  function fmtShort(v) {
+    if (Math.abs(v) >= 1e6) return "R" + (v / 1e6).toFixed(1).replace(/\.0$/, "") + "m";
+    if (Math.abs(v) >= 1e3) return "R" + Math.round(v / 1e3) + "k";
+    return "R" + Math.round(v);
+  }
+
+  /* ---------- simulation ---------- */
+  function params() {
+    return {
+      bond: +document.getElementById("in-bond").value,
+      rate: +document.getElementById("in-rate").value / 100,
+      pension: +document.getElementById("in-pension").value,
+      side: +document.getElementById("in-side").value
+    };
+  }
+
+  function simulate(s, p) {
+    var bal = p.bond, assets = START_ASSETS;
+    var bondSeries = [], assetSeries = [], payoffIdx = -1, mumSnap = null;
+    for (var m = 0; m < N; m++) {
+      var yf = m / 12, infl = Math.pow(1 + INFL, yf);
+
+      var mother = m <= RETIRE_M ? MOTHER_SAL * infl : p.pension;
+      var z = Z_SAL * infl;
+      var rent = RENT0 * infl;
+      var maya = s.mayaBy > 0
+        ? Math.min(s.mayaTarget, 1000 + (s.mayaTarget - 1000) * (m / s.mayaBy)) * (m > s.mayaBy ? Math.pow(1 + INFL, (m - s.mayaBy) / 12) : 1)
+        : 1000 * infl;
+      var side = 0;
+      if (s.side && m >= 3) {
+        var ramp = Math.min(1, (m - 2) / 12);
+        side = p.side * ramp * (m > 15 ? Math.pow(1.08, (m - 15) / 12) : 1);
+      }
+      var income = mother + z + rent + maya + side + OTHER_INC * infl;
+
+      var exp = (NONBOND_EXP - (s.food ? FOOD_SAVE : 0)) * infl;
+
+      var pay = 0;
+      if (bal > 0) {
+        var interest = bal * p.rate / 12;
+        pay = Math.min(bal + interest, BOND_PAY + (m >= EXTRA_START ? s.extra : 0));
+        bal = bal + interest - pay;
+        if (bal <= 0.5) { bal = 0; if (payoffIdx < 0) payoffIdx = m; }
+      }
+
+      var surplus = income - exp - pay;
+      if (surplus > 0) assets = assets * (1 + RET / 12) + surplus * s.saveRate;
+      else assets = assets * (1 + RET / 12) + surplus;
+
+      bondSeries.push(bal);
+      assetSeries.push(assets);
+      if (m === RETIRE_M + 1) {
+        mumSnap = { pension: p.pension, rent: rent, maya: maya, bondOwing: bal > 0, bondPay: bal > 0 ? pay : 0 };
+      }
+    }
+    return { bond: bondSeries, assets: assetSeries, payoffIdx: payoffIdx, mum: mumSnap };
+  }
+
+  /* ---------- line chart ---------- */
+  function lineChart(hostId, series, opts) {
+    var host = document.getElementById(hostId);
+    var W = 900, H = 320, padL = 56, padR = 96, padT = 14, padB = 30;
+    var iw = W - padL - padR, ih = H - padT - padB;
+    var maxV = 0;
+    series.forEach(function (s) { s.values.forEach(function (v) { if (v > maxV) maxV = v; }); });
+    maxV = maxV * 1.06 || 1;
+
+    function x(i) { return padL + (i / (N - 1)) * iw; }
+    function y(v) { return padT + ih - (v / maxV) * ih; }
+
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + opts.aria + '">';
+
+    var gridN = 4;
+    for (var g = 0; g <= gridN; g++) {
+      var gv = maxV * g / gridN, gy = y(gv);
+      svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + gy + '" y2="' + gy + '" stroke="' + css("--grid") + '" stroke-width="1"/>';
+      svg += '<text x="' + (padL - 8) + '" y="' + (gy + 4) + '" text-anchor="end" font-size="11" fill="' + css("--muted") + '">' + fmtShort(gv) + "</text>";
+    }
+    for (var i = 0; i < N; i++) {
+      var d = ymOf(i);
+      if (d.m === 0 && d.y % (opts.everyYear || 1) === 0) {
+        svg += '<text x="' + x(i) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="11" fill="' + css("--muted") + '">' + d.y + "</text>";
+        svg += '<line x1="' + x(i) + '" x2="' + x(i) + '" y1="' + (padT + ih) + '" y2="' + (padT + ih + 4) + '" stroke="' + css("--baseline") + '"/>';
+      }
+    }
+    svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + (padT + ih) + '" y2="' + (padT + ih) + '" stroke="' + css("--baseline") + '" stroke-width="1"/>';
+
+    if (opts.marker) {
+      var mx = x(opts.marker.at);
+      svg += '<line x1="' + mx + '" x2="' + mx + '" y1="' + padT + '" y2="' + (padT + ih) + '" stroke="' + css("--muted") + '" stroke-width="1" stroke-dasharray="3,4"/>';
+      svg += '<text x="' + (mx + 5) + '" y="' + (padT + 12) + '" font-size="11" fill="' + css("--muted") + '">' + opts.marker.label + "</text>";
+    }
+
+    series.forEach(function (s) {
+      var d = "";
+      s.values.forEach(function (v, i) { d += (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); });
+      var wgt = s.emph ? 3 : 2, op = s.emph ? 1 : 0.55;
+      svg += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="' + wgt + '" opacity="' + op + '" stroke-linejoin="round"/>';
+      var endI = s.values.length - 1;
+      if (opts.endAtZero && s.payoffIdx >= 0) endI = s.payoffIdx;
+      var ey = y(s.values[endI]);
+      svg += '<circle cx="' + x(endI) + '" cy="' + ey + '" r="3.5" fill="' + s.color + '" stroke="' + css("--surface") + '" stroke-width="2" opacity="' + op + '"/>';
+      svg += '<text x="' + (x(endI) + 8) + '" y="' + (ey + 4 + (s.labelDy || 0)) + '" font-size="11.5" font-weight="600" fill="' + s.color + '" opacity="' + Math.max(op, 0.8) + '">' + s.endLabel + "</text>";
+    });
+
+    svg += '<line id="' + hostId + '-cross" x1="0" x2="0" y1="' + padT + '" y2="' + (padT + ih) + '" stroke="' + css("--baseline") + '" stroke-width="1" style="display:none"/>';
+    svg += '<rect x="' + padL + '" y="' + padT + '" width="' + iw + '" height="' + ih + '" fill="transparent" style="cursor:crosshair"/>';
+    svg += "</svg>";
+
+    host.innerHTML = svg + '<div class="tooltip" id="' + hostId + '-tip"></div>';
+
+    var svgEl = host.querySelector("svg"), tip = document.getElementById(hostId + "-tip"),
+        cross = document.getElementById(hostId + "-cross");
+    svgEl.addEventListener("mousemove", function (ev) {
+      var r = svgEl.getBoundingClientRect();
+      var px = (ev.clientX - r.left) * (W / r.width);
+      var idx = Math.round(((px - padL) / iw) * (N - 1));
+      if (idx < 0 || idx >= N) { tip.style.display = "none"; cross.style.display = "none"; return; }
+      cross.setAttribute("x1", x(idx)); cross.setAttribute("x2", x(idx));
+      cross.style.display = "";
+      var html = '<div class="t-title">' + labelOf(idx) + "</div>";
+      series.forEach(function (s) {
+        html += '<div class="t-row"><span class="name"><span class="swatch" style="background:' + s.color + '"></span>' + s.name + '</span><span class="val">' + fmtR(s.values[idx]) + "</span></div>";
+      });
+      tip.innerHTML = html;
+      tip.style.display = "block";
+      var hostR = host.getBoundingClientRect();
+      var tx = (ev.clientX - hostR.left) + 14, ty = (ev.clientY - hostR.top) - 10;
+      if (tx + tip.offsetWidth > hostR.width - 4) tx -= tip.offsetWidth + 28;
+      tip.style.left = tx + "px"; tip.style.top = ty + "px";
+    });
+    svgEl.addEventListener("mouseleave", function () { tip.style.display = "none"; cross.style.display = "none"; });
+  }
+
+  /* ---------- mum stacked chart ---------- */
+  function mumChart(results, selKey) {
+    var host = document.getElementById("chart-mum");
+    var W = 900, rowH = 56, padL = 96, padR = 20, padT = 30, padB = 28;
+    var H = padT + SCEN.length * rowH + padB;
+    var maxV = 52000;
+    function x(v) { return padL + (v / maxV) * (W - padL - padR); }
+
+    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Sumaya’s net monthly income in January 2031 per scenario, against the R25,000 to R35,000 target band">';
+
+    svg += '<rect x="' + x(25000) + '" y="' + (padT - 16) + '" width="' + (x(35000) - x(25000)) + '" height="' + (H - padT - padB + 16) + '" fill="' + css("--band") + '"/>';
+    svg += '<text x="' + x(30000) + '" y="' + (padT - 20) + '" text-anchor="middle" font-size="11" font-weight="600" fill="' + css("--muted") + '">target R25k–35k</text>';
+
+    [0, 10000, 20000, 30000, 40000, 50000].forEach(function (gv) {
+      svg += '<line x1="' + x(gv) + '" x2="' + x(gv) + '" y1="' + (padT - 6) + '" y2="' + (H - padB) + '" stroke="' + css("--grid") + '"/>';
+      svg += '<text x="' + x(gv) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="11" fill="' + css("--muted") + '">' + fmtShort(gv) + "</text>";
+    });
+
+    var segColors = { pension: css("--seg-pension"), rent: css("--seg-rent"), maya: css("--seg-bread") };
+
+    SCEN.forEach(function (s, i) {
+      var r = results[s.key].mum;
+      var yTop = padT + i * rowH + 8, bh = 24;
+      var net = r.pension + r.rent + r.maya - (r.bondOwing ? r.bondPay : 0);
+      var sel = s.key === selKey;
+
+      svg += '<text x="' + (padL - 10) + '" y="' + (yTop + bh / 2 + 4) + '" text-anchor="end" font-size="12.5" font-weight="' + (sel ? 700 : 500) + '" fill="' + (sel ? css("--ink") : css("--ink-2")) + '">' + s.name + "</text>";
+
+      var cx = padL;
+      [["pension", r.pension, "GEPF"], ["rent", r.rent, "Rentals"], ["maya", r.maya, "Bread"]].forEach(function (seg) {
+        var w = Math.max(0, (seg[1] / maxV) * (W - padL - padR) - 2);
+        svg += '<rect x="' + cx + '" y="' + yTop + '" width="' + w + '" height="' + bh + '" rx="4" fill="' + segColors[seg[0]] + '"/>';
+        if (w > 58) svg += '<text x="' + (cx + w / 2) + '" y="' + (yTop + bh / 2 + 4) + '" text-anchor="middle" font-size="10.5" font-weight="600" fill="#ffffff">' + fmtShort(seg[1]) + "</text>";
+        cx += w + 2;
+      });
+
+      if (r.bondOwing) {
+        var bw = (r.bondPay / maxV) * (W - padL - padR);
+        svg += '<rect x="' + (cx - bw) + '" y="' + (yTop - 3) + '" width="' + bw + '" height="' + (bh + 6) + '" rx="4" fill="none" stroke="' + css("--critical") + '" stroke-width="1.5" stroke-dasharray="4,3"/>';
+        svg += '<text x="' + (cx + 8) + '" y="' + (yTop + bh / 2 - 3) + '" font-size="11" font-weight="600" fill="' + css("--critical") + '">net ' + fmtR(net) + "</text>";
+        svg += '<text x="' + (cx + 8) + '" y="' + (yTop + bh / 2 + 10) + '" font-size="10" fill="' + css("--critical") + '">bond still −' + fmtShort(r.bondPay) + "/mo</text>";
+      } else {
+        svg += '<text x="' + (cx + 8) + '" y="' + (yTop + bh / 2 + 4) + '" font-size="11.5" font-weight="700" fill="' + css("--good-text") + '">' + fmtR(net) + " ✓</text>";
+      }
+    });
+
+    svg += "</svg>";
+    host.innerHTML = svg;
+
+    document.getElementById("legend-mum").innerHTML =
+      '<span><span class="swatch" style="background:' + segColors.pension + '"></span>GEPF pension (slider)</span>' +
+      '<span><span class="swatch" style="background:' + segColors.rent + '"></span>Rental income</span>' +
+      '<span><span class="swatch" style="background:' + segColors.maya + '"></span>Maya Baker bread</span>' +
+      '<span><span class="swatch" style="border:1.5px dashed ' + css("--critical") + ';background:transparent"></span>Bond not yet paid off</span>';
+  }
+
+  /* ---------- budget bars ---------- */
+  function budgetBars() {
+    var income = [
+      ["Sumaya — Parliament", 59000], ["Rent — Tasneem", 10140],
+      ["Zubayr — salary", 13200], ["Rent — Mariam", 8000],
+      ["Other / unitemised", 2410], ["Maya Baker bread", 1000]
+    ];
+    var expense = [
+      ["Bond (Standard Bank)", 15600], ["Groceries", 11475], ["Discovery medical", 7407],
+      ["Takeaways & restaurants", 4919], ["SBSA DebiCheck", 3592], ["Oasis Crescent", 3500],
+      ["Virgin Active", 1575], ["Vox Telecom", 1295], ["Bryte insurance", 1207],
+      ["Everything else", 14251]
+    ];
+    function render(hostId, title, rows, color, totalLabel, total) {
+      var max = Math.max.apply(null, rows.map(function (r) { return r[1]; }));
+      var html = "<h3>" + title + "</h3>";
+      rows.forEach(function (r) {
+        html += '<div class="bar-row"><span class="b-label">' + r[0] + '</span><span class="b-track"><span class="b-fill" style="width:' + (r[1] / max * 100).toFixed(1) + "%;background:" + color + '"></span></span><span class="b-val">' + fmtR(r[1]) + "</span></div>";
+      });
+      html += '<div class="bar-row total"><span class="b-label">' + totalLabel + '</span><span></span><span class="b-val">' + fmtR(total) + "</span></div>";
+      document.getElementById(hostId).innerHTML = html;
+    }
+    render("income-bars", "Comes in each month", income, css("--seg-rent"), "Total inflow", 93750);
+    render("expense-bars", "Goes out each month", expense, css("--seg-pension"), "Total · surplus " + fmtR(28929), 64821);
+  }
+
+  /* ---------- decisions ---------- */
+  function decisions() {
+    var items = [
+      ["Call GEPF this week — 0800 117 669", "Every retirement number on this page swings on one unconfirmed figure: Sumaya’s pension. A R10,000/month difference in that estimate changes the entire plan more than any investment decision could. It costs one phone call. While on with Parliament HR, confirm GEMS medical aid continuation after retirement.", "Removes the biggest unknown in the whole model — free"],
+      ["Kill the bond before December 2030", "The bond is a guaranteed ~11% after-tax return — no fund reliably beats that at zero risk. R5,000/month extra from January 2027 clears it around retirement; R8,000/month clears it comfortably before. The day it dies, R18,140 of rent becomes nearly pure profit and Mum’s retirement largely funds itself. Keep the R40,000 cash as an emergency float until the GEPF figure is known — then decide whether part of it goes into the bond.", "≈ R15,600/mo freed at exactly the moment the salary stops"],
+      ["Do not buy the vehicle yet", "The bakkie costs R8,150–9,300/month before it earns a rand — almost exactly the entire bond-acceleration budget. The pattern in the vehicle discussion (R160k → R217k → R300k, all before revenue) is the same evaluation loop, wearing wheels. Rule: the business pays for the vehicle, never the reverse.", "Protects ≈ R100k+/yr from premature commitment"],
+      ["Fix the TFSA in twenty minutes", "Sell Satrix Shariah Top 40 and split the proceeds between Satrix Top 40 and S&P 500; switch every dividend from cash to reinvest; set a R1,000/month debit order. The R500,000 lifetime limit makes early months disproportionately valuable — a rand contributed at 21 has 40+ years of tax-free compounding ahead of it. Stop contributing to the taxable ZAR account entirely.", "Decades of tax-free compounding, started this week"],
+      ["Food discipline is worth R128,568 a year", "Groceries (R11,475) plus takeaways (R4,919) trimmed to a planned budget releases R10,714/month — which funds the entire bond acceleration and the TFSA debit order with change. It’s the only line on the statement that moves this much without anyone earning more.", "+R10,714/mo — funds decisions 2 and 4 entirely"],
+      ["Run one income experiment — not fifteen evaluations", "The Builder scenario’s fuel is a single test: add the AI-automation offer to the existing Instantly sequence, send to 500 accounting/FSP leads, judge by replies in 30 days. Apify and Instantly are already paid for, so the marginal cost is zero. Fifteen ideas were evaluated this year and none launched — the blocker is a first send, not more information.", "First side income within 1–3 months at R0 marginal cost"],
+      ["Do the paperwork that protects all of it", "Two updated wills — the rentals and the house sit in Sumaya’s name, and intestate succession would freeze the family’s largest assets at the worst possible moment. Boring, cheap, and more important than any optimisation above if the unexpected happens.", "Protects the entire balance sheet"]
+    ];
+    document.getElementById("decisions").innerHTML = items.map(function (d, i) {
+      return '<div class="decision"><div class="d-num">' + (i + 1) + "</div><div><h3>" + d[0] + "</h3><p>" + d[1] + '</p><div class="impact">' + d[2] + "</div></div></div>";
+    }).join("");
+  }
+
+  /* ---------- checklist ---------- */
+  function checklist() {
+    var items = [
+      ["Call GEPF on 0800 117 669 for Mum’s benefit estimate", "Ask for the monthly pension at Dec 2030 retirement plus any lump sum"],
+      ["Sell Satrix Shariah Top 40; rebalance 50/50 Top 40 & S&P 500", "EasyEquities — 5 minutes"],
+      ["Switch TFSA dividends from cash to reinvest", "EasyEquities settings, all holdings"],
+      ["Set up R1,000/mo TFSA debit order", "Into the TFSA only — not the ZAR account"],
+      ["Add AI-automation offer to the Instantly sequence and send to 500 leads", "Same accountant/FSP list — judge by replies in 30 days"],
+      ["Book will drafting for both Zubayr and Sumaya", "Bank or attorney — the rentals make this urgent"],
+      ["Confirm GEMS continuation after retirement with Parliament HR", "Same call as the GEPF chase if possible"]
+    ];
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem("raf-checklist") || "{}"); } catch (e) {}
+    document.getElementById("checklist").innerHTML = items.map(function (it, i) {
+      var id = "chk" + i;
+      return '<div class="check"><input type="checkbox" id="' + id + '"' + (saved[id] ? " checked" : "") + '><label for="' + id + '">' + it[0] + "<small>" + it[1] + "</small></label></div>";
+    }).join("");
+    document.getElementById("checklist").addEventListener("change", function (ev) {
+      if (ev.target.type !== "checkbox") return;
+      saved[ev.target.id] = ev.target.checked;
+      try { localStorage.setItem("raf-checklist", JSON.stringify(saved)); } catch (e) {}
+    });
+  }
+
+  /* ---------- KPIs ---------- */
+  function kpis(results, selKey, p) {
+    var s = SCEN.filter(function (x) { return x.key === selKey; })[0];
+    var r = results[selKey];
+    var surplus0 = (s.food ? 39643 : 28929);
+    var payoff = r.payoffIdx >= 0 ? labelOf(r.payoffIdx) : "after 2035";
+    var beforeRet = r.payoffIdx >= 0 && r.payoffIdx <= RETIRE_M;
+    var mum = r.mum;
+    var mumNet = mum.pension + mum.rent + mum.maya - (mum.bondOwing ? mum.bondPay : 0);
+    var mumPill = mumNet >= 35000 ? ['good', 'above target ✓'] : mumNet >= 25000 ? ['good', 'inside target band ✓'] : ['crit', fmtR(25000 - mumNet) + ' below target'];
+    var assets35 = r.assets[N - 1];
+
+    document.getElementById("kpis").innerHTML =
+      kpi("Monthly surplus · today", fmtR(surplus0), s.food ? "with food discipline" : "current spending",
+          s.food ? ["good", "+" + fmtR(10714) + " vs drift"] : ["warn", "R10,714/mo left on the table"]) +
+      kpi("Bond paid off", payoff, "extra " + fmtR(s.extra) + "/mo from Jan 2027",
+          beforeRet ? ["good", "before Mum retires ✓"] : (r.payoffIdx >= 0 && r.payoffIdx <= RETIRE_M + 3) ? ["warn", "just after retirement"] : ["crit", "years into retirement"]) +
+      kpi("Mum’s income · Jan 2031", fmtR(mumNet) + "/mo", "target R25k–35k · pension set to " + fmtShort(p.pension), mumPill) +
+      kpi("Investable assets · May 2035", fmtShort(assets35), "9% nominal · " + Math.round(s.saveRate * 100) + "% of surplus invested",
+          ["good", "+" + fmtShort(assets35 - results.drift.assets[N - 1]) + " vs drift"]) +
+      kpi("War chest · today", "R40 000", "deployable cash · credit score 650", ["warn", "hold until GEPF figure known"]);
+
+    function kpi(label, value, note, pill) {
+      return '<div class="kpi"><div class="k-label">' + label + '</div><div class="k-value">' + value + '</div><div class="k-note">' + note + '</div><span class="pill ' + pill[0] + '">' + pill[1] + "</span></div>";
+    }
+  }
+
+  /* ---------- tables ---------- */
+  function yearTable(hostId, results, pick, fmt) {
+    var rows = "";
+    for (var i = 0; i < N; i++) {
+      var d = ymOf(i);
+      if (d.m === 11 || i === N - 1) {
+        rows += "<tr><td>" + labelOf(i) + "</td>" + SCEN.map(function (s) {
+          return "<td>" + fmt(pick(results[s.key], i)) + "</td>";
+        }).join("") + "</tr>";
+      }
+    }
+    document.getElementById(hostId).innerHTML =
+      "<table><thead><tr><th>Month</th>" + SCEN.map(function (s) { return "<th>" + s.name + "</th>"; }).join("") + "</thead><tbody>" + rows + "</tbody></table>";
+  }
+
+  /* ---------- render ---------- */
+  var selected = "build";
+
+  function renderScenarios() {
+    document.getElementById("scenarios").innerHTML = SCEN.map(function (s) {
+      return '<button class="scen-btn" data-key="' + s.key + '" aria-pressed="' + (s.key === selected) + '"><span class="scen-name"><span class="swatch" style="background:var(' + s.colorVar + ')"></span>' + s.name + '</span><span class="scen-desc">' + s.desc + "</span></button>";
+    }).join("");
+  }
+
+  function renderAll() {
+    var p = params();
+    document.getElementById("o-bond").textContent = fmtShort(p.bond);
+    document.getElementById("o-rate").textContent = (p.rate * 100).toFixed(2).replace(/\.?0+$/, "") + "%";
+    document.getElementById("o-pension").textContent = fmtR(p.pension) + "/mo";
+    document.getElementById("o-side").textContent = fmtR(p.side) + "/mo";
+
+    var results = {};
+    SCEN.forEach(function (s) { results[s.key] = simulate(s, p); });
+
+    kpis(results, selected, p);
+
+    var legendHtml = SCEN.map(function (s) {
+      return '<span><span class="swatch" style="background:var(' + s.colorVar + ')"></span>' + s.name + "</span>";
+    }).join("");
+
+    document.getElementById("legend-bond").innerHTML = legendHtml;
+    lineChart("chart-bond", SCEN.map(function (s, i) {
+      var r = results[s.key];
+      return { name: s.name, color: css(s.colorVar), values: r.bond, emph: s.key === selected,
+               payoffIdx: r.payoffIdx, labelDy: (i - 1) * 14,
+               endLabel: r.payoffIdx >= 0 ? labelOf(r.payoffIdx) : "still owing" };
+    }), { aria: "Bond balance over time for three scenarios", endAtZero: true,
+          marker: { at: RETIRE_M, label: "Mum retires" } });
+
+    mumChart(results, selected);
+
+    document.getElementById("legend-assets").innerHTML = legendHtml;
+    lineChart("chart-assets", SCEN.map(function (s) {
+      var r = results[s.key];
+      return { name: s.name, color: css(s.colorVar), values: r.assets, emph: s.key === selected,
+               payoffIdx: -1, endLabel: fmtShort(r.assets[N - 1]) };
+    }), { aria: "Household investable assets projected to May 2035 for three scenarios",
+          marker: { at: RETIRE_M, label: "Mum retires" } });
+
+    yearTable("table-bond", results, function (r, i) { return r.bond[i]; }, fmtR);
+    yearTable("table-assets", results, function (r, i) { return r.assets[i]; }, fmtR);
+  }
+
+  renderScenarios();
+  budgetBars();
+  decisions();
+  checklist();
+  renderAll();
+
+  document.getElementById("scenarios").addEventListener("click", function (ev) {
+    var btn = ev.target.closest(".scen-btn");
+    if (!btn) return;
+    selected = btn.dataset.key;
+    renderScenarios();
+    renderAll();
+  });
+  ["in-bond", "in-rate", "in-pension", "in-side"].forEach(function (id) {
+    document.getElementById(id).addEventListener("input", renderAll);
+  });
+
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", renderAll);
+  new MutationObserver(renderAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
