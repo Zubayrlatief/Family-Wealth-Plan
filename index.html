@@ -18,6 +18,7 @@
     --seg-pension: #4a90e2;
     --seg-rent: #35b58c;
     --seg-bread: #f2b04e;
+    --seg-flat: #8f7fd9;
     --good: #34ad63;
     --good-text: #1e7d47;
     --warning: #f5c04a;
@@ -43,6 +44,7 @@
       --seg-pension: #6aa5e8;
       --seg-rent: #3cc79a;
       --seg-bread: #e0a24a;
+      --seg-flat: #a79bf0;
       --good: #34ad63;
       --good-text: #4cc47a;
       --band: rgba(106,165,232,0.12);
@@ -66,6 +68,7 @@
     --seg-pension: #6aa5e8;
     --seg-rent: #3cc79a;
     --seg-bread: #e0a24a;
+    --seg-flat: #a79bf0;
     --good: #34ad63;
     --good-text: #4cc47a;
     --band: rgba(106,165,232,0.12);
@@ -88,6 +91,7 @@
     --seg-pension: #4a90e2;
     --seg-rent: #35b58c;
     --seg-bread: #f2b04e;
+    --seg-flat: #8f7fd9;
     --good: #34ad63;
     --good-text: #1e7d47;
     --warning: #f5c04a;
@@ -175,6 +179,8 @@
   .slider label output { color: var(--ink); font-variant-numeric: tabular-nums; }
   .slider input[type=range] { width: 100%; accent-color: var(--accent); margin-top: 8px; }
   .slider .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .slider.toggle label { justify-content: flex-start; align-items: center; cursor: pointer; color: var(--ink); }
+  .slider.toggle input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--accent); margin: 0; cursor: pointer; }
 
   /* ---------- charts ---------- */
   .chart-card {
@@ -251,7 +257,7 @@
   <header>
     <div class="eyebrow">Private · Family planning model · July 2026</div>
     <h1>Our Family Wealth Plan</h1>
-    <p class="lede">One household, two builders: <strong>Sumaya, 55</strong>, retiring from Parliament around <strong>December 2030</strong>, and <strong>Zubayr, 21</strong>, building toward <strong>R150k–200k/month by age 30</strong>. Household inflow <strong>R93,750/mo</strong>, expenses <strong>R64,821/mo</strong>. This page models three ways the next nine years can go — adjust the unknowns below and watch every number update.</p>
+    <p class="lede">One household, two builders: <strong>Sumaya, 55</strong>, retiring from Parliament around <strong>December 2030</strong>, and <strong>Zubayr, 21</strong>, building toward <strong>R150k–200k/month by age 30</strong>. Household inflow <strong>R90,610/mo</strong>, expenses <strong>R64,821/mo</strong>. This page models three ways the next nine years can go — adjust the unknowns below and watch every number update.</p>
   </header>
 
   <div class="kpis" id="kpis"></div>
@@ -282,13 +288,27 @@
           <input type="range" id="in-side" min="5000" max="60000" step="2500" value="25000" aria-label="Builder scenario side income target">
           <div class="hint">AI automation / high-ticket sales ramp</div>
         </div>
+        <div class="slider toggle">
+          <label><input type="checkbox" id="in-flat-on" checked> Build the separate-entrance unit</label>
+          <div class="hint">Loan at the bond rate over 15 years; build Jan–Jun 2027, first rent July 2027. Home bond is paid off first, then its full payment rolls into this loan.</div>
+        </div>
+        <div class="slider">
+          <label>Build cost <output id="o-fcost"></output></label>
+          <input type="range" id="in-fcost" min="300000" max="700000" step="10000" value="480000" aria-label="New unit build cost">
+          <div class="hint">40 m² × R12,000/m² = R480,000</div>
+        </div>
+        <div class="slider">
+          <label>New unit rent <output id="o-frent"></output></label>
+          <input type="range" id="in-frent" min="6000" max="13000" step="250" value="9000" aria-label="New unit monthly rent">
+          <div class="hint">Similar units nearby set the ceiling</div>
+        </div>
       </div>
     </div>
   </section>
 
   <section>
     <h2>The bond is the battle</h2>
-    <p class="sub">The 28 May 2026 statement shows R1,137,218 owing at 10.56% with 139 months to run — left alone, the bond only dies in December 2037, seven years after Sumaya retires. Every rand prepaid earns a guaranteed 10.56% after tax, and every month it survives past December 2030 costs the retirement plan R15,315.</p>
+    <p class="sub">The 28 May 2026 statement shows R1,137,218 owing at 10.56% with 139 months to run — left alone, the bond only dies in December 2037, seven years after Sumaya retires. Every rand prepaid earns a guaranteed 10.56% after tax, and every month it survives past December 2030 costs the retirement plan R15,315. If the new unit is built, its loan appears here too — the scenarios kill the home bond first, then roll that whole payment into the flat loan.</p>
     <div class="chart-card">
       <div class="legend" id="legend-bond"></div>
       <div class="chart-box" id="chart-bond"></div>
@@ -339,7 +359,7 @@
   </section>
 
   <footer>
-    <p><strong>Model assumptions:</strong> bond facts from the 28 May 2026 Standard Bank statement — R1,137,218 outstanding at 10.56%, instalment R14,325.95, with the R989 service fee and homeowner's insurance kept inside household expenses; salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Stated household inflow of R93,750 exceeds itemised sources by R2,410, shown as "Other".</p>
+    <p><strong>Model assumptions:</strong> bond facts from the 28 May 2026 Standard Bank statement — R1,137,218 outstanding at 10.56%, instalment R14,325.95, with the R989 service fee and homeowner's insurance kept inside household expenses; salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Rentals corrected July 2026 to actuals: Mariam R6,000 + Tasneem R9,000 = R15,000/mo. The separate-entrance unit is modelled as a 15-year loan at the bond rate, drawn January 2027, built over six months, first rent July 2027, rent escalating 5%/year; once the home bond is settled its full payment rolls into the flat loan. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Household inflow includes R2,410 of unitemised income carried over from the bank-statement analysis.</p>
     <p><strong>This is an educational planning model, not financial advice.</strong> Claude is not a licensed financial services provider under FAIS. Confirm the pension with GEPF, the bond terms with Standard Bank, and any investment or retirement decision with a licensed adviser.</p>
   </footer>
 </div>
@@ -354,9 +374,15 @@
   var RETIRE_M = 53;                         // Dec 2030 — last salary month
   var EXTRA_START = 6;                       // Jan 2027
   var INFL = 0.05, RET = 0.09;
-  var MOTHER_SAL = 59000, Z_SAL = 13200, RENT0 = 18140, OTHER_INC = 2410;
+  var MOTHER_SAL = 59000, Z_SAL = 13200, RENT0 = 15000, OTHER_INC = 2410;
   var NONBOND_EXP = 50495, FOOD_SAVE = 10714, BOND_PAY = 14326;
   var START_ASSETS = 89000;
+  var FLAT_BUILD_M = 6, FLAT_RENT_M = 12, FLAT_TERM = 180; // build Jan 2027, rent from Jul 2027, 15-yr loan
+
+  function pmt(P, annualRate, n) {
+    var r = annualRate / 12;
+    return P * r / (1 - Math.pow(1 + r, -n));
+  }
 
   var css = function (v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); };
 
@@ -393,12 +419,16 @@
       bond: +document.getElementById("in-bond").value,
       rate: +document.getElementById("in-rate").value / 100,
       pension: +document.getElementById("in-pension").value,
-      side: +document.getElementById("in-side").value
+      side: +document.getElementById("in-side").value,
+      flatOn: document.getElementById("in-flat-on").checked,
+      flatCost: +document.getElementById("in-fcost").value,
+      flatRent: +document.getElementById("in-frent").value
     };
   }
 
   function simulate(s, p) {
-    var bal = p.bond, assets = START_ASSETS;
+    var bal = p.bond, flatBal = 0, assets = START_ASSETS;
+    var flatPmt = pmt(p.flatCost, p.rate, FLAT_TERM);
     var bondSeries = [], assetSeries = [], payoffIdx = -1, mumSnap = null;
     for (var m = 0; m < N; m++) {
       var yf = m / 12, infl = Math.pow(1 + INFL, yf);
@@ -414,29 +444,42 @@
         var ramp = Math.min(1, (m - 2) / 12);
         side = p.side * ramp * (m > 15 ? Math.pow(1.08, (m - 15) / 12) : 1);
       }
-      var income = mother + z + rent + maya + side + OTHER_INC * infl;
+      var flatRent = (p.flatOn && m >= FLAT_RENT_M) ? p.flatRent * Math.pow(1 + INFL, (m - FLAT_RENT_M) / 12) : 0;
+      var income = mother + z + rent + maya + side + flatRent + OTHER_INC * infl;
 
       var exp = (NONBOND_EXP - (s.food ? FOOD_SAVE : 0)) * infl;
+
+      if (p.flatOn && m === FLAT_BUILD_M) flatBal = p.flatCost;
 
       var pay = 0;
       if (bal > 0) {
         var interest = bal * p.rate / 12;
         pay = Math.min(bal + interest, BOND_PAY + (m >= EXTRA_START ? s.extra : 0));
         bal = bal + interest - pay;
-        if (bal <= 0.5) { bal = 0; if (payoffIdx < 0) payoffIdx = m; }
+        if (bal <= 0.5) bal = 0;
       }
+      var fpay = 0;
+      if (flatBal > 0) {
+        var fint = flatBal * p.rate / 12;
+        var fbudget = flatPmt + (bal === 0 ? BOND_PAY + (m >= EXTRA_START ? s.extra : 0) - pay : 0);
+        fpay = Math.min(flatBal + fint, fbudget);
+        flatBal = flatBal + fint - fpay;
+        if (flatBal <= 0.5) flatBal = 0;
+      }
+      if (payoffIdx < 0 && m > 0 && bal === 0 && flatBal === 0 && (p.flatOn ? m >= FLAT_BUILD_M : true)) payoffIdx = m;
 
-      var surplus = income - exp - pay;
+      var surplus = income - exp - pay - fpay;
       if (surplus > 0) assets = assets * (1 + RET / 12) + surplus * s.saveRate;
       else assets = assets * (1 + RET / 12) + surplus;
 
-      bondSeries.push(bal);
+      bondSeries.push(bal + flatBal);
       assetSeries.push(assets);
       if (m === RETIRE_M + 1) {
-        mumSnap = { pension: p.pension, rent: rent, maya: maya, bondOwing: bal > 0, bondPay: bal > 0 ? pay : 0 };
+        mumSnap = { pension: p.pension, rent: rent, maya: maya, flat: flatRent,
+                    bondOwing: bal + flatBal > 0, bondPay: pay + fpay };
       }
     }
-    return { bond: bondSeries, assets: assetSeries, payoffIdx: payoffIdx, mum: mumSnap };
+    return { bond: bondSeries, assets: assetSeries, payoffIdx: payoffIdx, mum: mumSnap, flatPmt: flatPmt };
   }
 
   /* ---------- line chart ---------- */
@@ -520,7 +563,7 @@
     var host = document.getElementById("chart-mum");
     var W = 900, rowH = 56, padL = 96, padR = 20, padT = 30, padB = 28;
     var H = padT + SCEN.length * rowH + padB;
-    var maxV = 52000;
+    var maxV = 58000;
     function x(v) { return padL + (v / maxV) * (W - padL - padR); }
 
     var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Sumaya’s net monthly income in January 2031 per scenario, against the R25,000 to R35,000 target band">';
@@ -533,18 +576,19 @@
       svg += '<text x="' + x(gv) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="11" fill="' + css("--muted") + '">' + fmtShort(gv) + "</text>";
     });
 
-    var segColors = { pension: css("--seg-pension"), rent: css("--seg-rent"), maya: css("--seg-bread") };
+    var segColors = { pension: css("--seg-pension"), rent: css("--seg-rent"), maya: css("--seg-bread"), flat: css("--seg-flat") };
 
     SCEN.forEach(function (s, i) {
       var r = results[s.key].mum;
       var yTop = padT + i * rowH + 8, bh = 24;
-      var net = r.pension + r.rent + r.maya - (r.bondOwing ? r.bondPay : 0);
+      var net = r.pension + r.rent + r.maya + r.flat - (r.bondOwing ? r.bondPay : 0);
       var sel = s.key === selKey;
 
       svg += '<text x="' + (padL - 10) + '" y="' + (yTop + bh / 2 + 4) + '" text-anchor="end" font-size="12.5" font-weight="' + (sel ? 700 : 500) + '" fill="' + (sel ? css("--ink") : css("--ink-2")) + '">' + s.name + "</text>";
 
       var cx = padL;
-      [["pension", r.pension, "GEPF"], ["rent", r.rent, "Rentals"], ["maya", r.maya, "Bread"]].forEach(function (seg) {
+      [["pension", r.pension, "GEPF"], ["rent", r.rent, "Rentals"], ["flat", r.flat, "New unit"], ["maya", r.maya, "Bread"]].forEach(function (seg) {
+        if (seg[1] <= 0) return;
         var w = Math.max(0, (seg[1] / maxV) * (W - padL - padR) - 2);
         svg += '<rect x="' + cx + '" y="' + yTop + '" width="' + w + '" height="' + bh + '" rx="4" fill="' + segColors[seg[0]] + '"/>';
         if (w > 58) svg += '<text x="' + (cx + w / 2) + '" y="' + (yTop + bh / 2 + 4) + '" text-anchor="middle" font-size="10.5" font-weight="600" fill="#ffffff">' + fmtShort(seg[1]) + "</text>";
@@ -567,15 +611,16 @@
     document.getElementById("legend-mum").innerHTML =
       '<span><span class="swatch" style="background:' + segColors.pension + '"></span>GEPF pension (slider)</span>' +
       '<span><span class="swatch" style="background:' + segColors.rent + '"></span>Rental income</span>' +
+      '<span><span class="swatch" style="background:' + segColors.flat + '"></span>New unit rent</span>' +
       '<span><span class="swatch" style="background:' + segColors.maya + '"></span>Maya Baker bread</span>' +
-      '<span><span class="swatch" style="border:1.5px dashed ' + css("--critical") + ';background:transparent"></span>Bond not yet paid off</span>';
+      '<span><span class="swatch" style="border:1.5px dashed ' + css("--critical") + ';background:transparent"></span>Loan repayments still owing</span>';
   }
 
   /* ---------- budget bars ---------- */
   function budgetBars() {
     var income = [
-      ["Sumaya — Parliament", 59000], ["Rent — Tasneem", 10140],
-      ["Zubayr — salary", 13200], ["Rent — Mariam", 8000],
+      ["Sumaya — Parliament", 59000], ["Zubayr — salary", 13200],
+      ["Rent — Tasneem", 9000], ["Rent — Mariam", 6000],
       ["Other / unitemised", 2410], ["Maya Baker bread", 1000]
     ];
     var expense = [
@@ -593,8 +638,8 @@
       html += '<div class="bar-row total"><span class="b-label">' + totalLabel + '</span><span></span><span class="b-val">' + fmtR(total) + "</span></div>";
       document.getElementById(hostId).innerHTML = html;
     }
-    render("income-bars", "Comes in each month", income, css("--seg-rent"), "Total inflow", 93750);
-    render("expense-bars", "Goes out each month", expense, css("--seg-pension"), "Total · surplus " + fmtR(28929), 64821);
+    render("income-bars", "Comes in each month", income, css("--seg-rent"), "Total inflow", 90610);
+    render("expense-bars", "Goes out each month", expense, css("--seg-pension"), "Total · surplus " + fmtR(25789), 64821);
   }
 
   /* ---------- decisions ---------- */
@@ -602,6 +647,7 @@
     var items = [
       ["Call GEPF this week — 0800 117 669", "Every retirement number on this page swings on one unconfirmed figure: Sumaya’s pension. A R10,000/month difference in that estimate changes the entire plan more than any investment decision could. It costs one phone call. While on with Parliament HR, confirm GEMS medical aid continuation after retirement.", "Removes the biggest unknown in the whole model — free"],
       ["Kill the bond by retirement — gratuity as the final blow", "R1,137,218 owing at 10.56% (28 May 2026 statement) with 139 months to run. Extra payments of R5,000–8,000/month from January 2027 cut the balance at retirement to roughly R360,000–540,000 — small enough to settle in one move from the tax-free portion of the GEPF gratuity. Clearing it by 2030 without the gratuity would take ~R14,000/month extra. Every rand prepaid earns a guaranteed 10.56% after tax; keep the R40,000 cash as an emergency float until the GEPF figure is known.", "≈ R15,315/mo freed at exactly the moment the salary stops"],
+      ["Build the separate-entrance unit — the numbers work", "40 m² at R12,000/m² is R480,000. Because the land is already owned, R9,000/month rent is a 22.5% gross yield on cost — roughly triple what buying a flat returns, and far above the 10.56% the loan costs. Repayment over 15 years is about R5,324/month, so the unit pays for itself with ~R3,700/month to spare from the first tenant. Guard-rails: fixed-price building contract, City of Cape Town plan approval and NHBRC enrolment before any money is borrowed, and budget 10–15% contingency on the build cost.", "+R9,000/mo income for R5,324/mo repayment — self-funding from month one"],
       ["Do not buy the vehicle yet", "The bakkie costs R8,150–9,300/month before it earns a rand — almost exactly the entire bond-acceleration budget. The pattern in the vehicle discussion (R160k → R217k → R300k, all before revenue) is the same evaluation loop, wearing wheels. Rule: the business pays for the vehicle, never the reverse.", "Protects ≈ R100k+/yr from premature commitment"],
       ["Fix the TFSA in twenty minutes", "Sell Satrix Shariah Top 40 and split the proceeds between Satrix Top 40 and S&P 500; switch every dividend from cash to reinvest; set a R1,000/month debit order. The R500,000 lifetime limit makes early months disproportionately valuable — a rand contributed at 21 has 40+ years of tax-free compounding ahead of it. Stop contributing to the taxable ZAR account entirely.", "Decades of tax-free compounding, started this week"],
       ["Food discipline is worth R128,568 a year", "Groceries (R11,475) plus takeaways (R4,919) trimmed to a planned budget releases R10,714/month — which funds the entire bond acceleration and the TFSA debit order with change. It’s the only line on the statement that moves this much without anyone earning more.", "+R10,714/mo — funds decisions 2 and 4 entirely"],
@@ -621,6 +667,7 @@
       ["Switch TFSA dividends from cash to reinvest", "EasyEquities settings, all holdings"],
       ["Set up R1,000/mo TFSA debit order", "Into the TFSA only — not the ZAR account"],
       ["Add AI-automation offer to the Instantly sequence and send to 500 leads", "Same accountant/FSP list — judge by replies in 30 days"],
+      ["Get two fixed-price quotes + plans for the separate entrance", "City of Cape Town building plan approval and NHBRC before borrowing"],
       ["Book will drafting for both Zubayr and Sumaya", "Bank or attorney — the rentals make this urgent"],
       ["Confirm GEMS continuation after retirement with Parliament HR", "Same call as the GEPF chase if possible"]
     ];
@@ -641,20 +688,26 @@
   function kpis(results, selKey, p) {
     var s = SCEN.filter(function (x) { return x.key === selKey; })[0];
     var r = results[selKey];
-    var surplus0 = (s.food ? 39643 : 28929);
+    var surplus0 = (s.food ? 36503 : 25789);
     var payoff = r.payoffIdx >= 0 ? labelOf(r.payoffIdx) : "after 2035";
     var beforeRet = r.payoffIdx >= 0 && r.payoffIdx <= RETIRE_M;
     var mum = r.mum;
-    var mumNet = mum.pension + mum.rent + mum.maya - (mum.bondOwing ? mum.bondPay : 0);
+    var mumNet = mum.pension + mum.rent + mum.maya + mum.flat - (mum.bondOwing ? mum.bondPay : 0);
+    var flatNet = p.flatRent - r.flatPmt;
+    var flatKpi = p.flatOn
+      ? kpi("New unit · net cash flow", (flatNet >= 0 ? "+" : "") + fmtR(flatNet) + "/mo", fmtShort(p.flatCost) + " loan · repay " + fmtR(r.flatPmt) + "/mo over 15y",
+            flatNet > 0 ? ["good", "pays for itself ✓"] : ["crit", "rent below repayment"])
+      : kpi("New unit", "not built", "toggle it on to model the build", ["warn", Math.round(p.flatRent * 12 / p.flatCost * 100) + "% yield waiting"]);
     var mumPill = mumNet >= 35000 ? ['good', 'above target ✓'] : mumNet >= 25000 ? ['good', 'inside target band ✓'] : ['crit', fmtR(25000 - mumNet) + ' below target'];
     var assets35 = r.assets[N - 1];
 
     document.getElementById("kpis").innerHTML =
       kpi("Monthly surplus · today", fmtR(surplus0), s.food ? "with food discipline" : "current spending",
           s.food ? ["good", "+" + fmtR(10714) + " vs drift"] : ["warn", "R10,714/mo left on the table"]) +
-      kpi("Bond paid off", payoff, "extra " + fmtR(s.extra) + "/mo from Jan 2027",
+      kpi("All property debt paid off", payoff, "extra " + fmtR(s.extra) + "/mo from Jan 2027" + (p.flatOn ? " · incl. flat loan" : ""),
           beforeRet ? ["good", "before Mum retires ✓"] : (r.payoffIdx >= 0 && r.payoffIdx <= RETIRE_M + 3) ? ["warn", "just after retirement"] : ["crit", "years into retirement"]) +
       kpi("Mum’s income · Jan 2031", fmtR(mumNet) + "/mo", "target R25k–35k · pension set to " + fmtShort(p.pension), mumPill) +
+      flatKpi +
       kpi("Investable assets · May 2035", fmtShort(assets35), "9% nominal · " + Math.round(s.saveRate * 100) + "% of surplus invested",
           ["good", "+" + fmtShort(assets35 - results.drift.assets[N - 1]) + " vs drift"]) +
       kpi("War chest · today", "R40 000", "deployable cash · credit score 650", ["warn", "hold until GEPF figure known"]);
@@ -694,6 +747,8 @@
     document.getElementById("o-rate").textContent = (p.rate * 100).toFixed(2).replace(/\.?0+$/, "") + "%";
     document.getElementById("o-pension").textContent = fmtR(p.pension) + "/mo";
     document.getElementById("o-side").textContent = fmtR(p.side) + "/mo";
+    document.getElementById("o-fcost").textContent = fmtShort(p.flatCost);
+    document.getElementById("o-frent").textContent = fmtR(p.flatRent) + "/mo";
 
     var results = {};
     SCEN.forEach(function (s) { results[s.key] = simulate(s, p); });
@@ -740,7 +795,7 @@
     renderScenarios();
     renderAll();
   });
-  ["in-bond", "in-rate", "in-pension", "in-side"].forEach(function (id) {
+  ["in-bond", "in-rate", "in-pension", "in-side", "in-flat-on", "in-fcost", "in-frent"].forEach(function (id) {
     document.getElementById(id).addEventListener("input", renderAll);
   });
 
