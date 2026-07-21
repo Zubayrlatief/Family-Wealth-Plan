@@ -104,11 +104,25 @@
   .pill.warn { background: rgba(245,192,74,0.20); color: var(--ink); }
 
   .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .tab-btn {
+    flex: 1 1 220px; text-align: left; cursor: pointer;
+    background: transparent; border: 1px solid var(--border); border-radius: 12px;
+    padding: 13px 15px; color: var(--ink); font: inherit;
+  }
+  .tab-btn:hover { background: rgba(74,144,226,0.06); }
+  .tab-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .tab-btn[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: rgba(74,144,226,0.07); }
+  .tab-name { font-weight: 650; font-size: 14px; }
+  .tab-desc { font-size: 12px; color: var(--ink-2); margin-top: 3px; }
+
   .sliders { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 24px; }
   .slider label { font-size: 12px; font-weight: 600; color: var(--ink-2); display: flex; justify-content: space-between; gap: 8px; }
   .slider label output { color: var(--ink); font-variant-numeric: tabular-nums; }
   .slider input[type=range] { width: 100%; accent-color: var(--accent); margin-top: 8px; }
   .slider .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .slider.toggle label { justify-content: flex-start; align-items: center; gap: 8px; cursor: pointer; color: var(--ink); }
+  .slider.toggle input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--accent); margin: 0; cursor: pointer; }
 
   .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px 22px 14px; margin-top: 14px; box-shadow: var(--shadow); }
   .chart-box { position: relative; }
@@ -136,7 +150,7 @@
   <header>
     <div class="eyebrow">Private · Family planning model · Zubayr's mission</div>
     <h1>The Bond Attack</h1>
-    <p class="lede">What happens when Zubayr puts <strong>R20,000 a month</strong> of his own income against the Standard Bank bond — <strong>R1,137,218 at 10.56%</strong>, otherwise scheduled to survive until <strong>December 2037</strong>. Adjust the attack below; every figure recalculates.</p>
+    <p class="lede">What happens when Zubayr puts <strong>R20,000 a month</strong> of his own income against the family's property debt — the Standard Bank bond of <strong>R1,137,218 at 10.56%</strong>, and optionally the <strong>R840,000 building loan</strong> for the two rental units. Pick a view, set the attack; every figure recalculates.</p>
     <p class="backlink"><a href="index.html">← Back to the family wealth dashboard</a></p>
   </header>
 
@@ -144,12 +158,22 @@
 
   <section>
     <h2>Set the attack</h2>
-    <p class="sub">The bond figures are locked to the 28 May 2026 statement. The only questions are how hard you hit it, and when you start.</p>
+    <p class="sub">The bond figures are locked to the 28 May 2026 statement. The building loan matches the plan on the main dashboard: R840,000 drawn January 2027, 15 years at the bond rate, two units renting at R7,500 each from July 2027.</p>
     <div class="panel">
+      <div class="tabs" id="tabs" role="group" aria-label="Debt view">
+        <button class="tab-btn" data-mode="bond" aria-pressed="true">
+          <div class="tab-name">Home bond only</div>
+          <div class="tab-desc">Just the Standard Bank bond — the attack in isolation.</div>
+        </button>
+        <button class="tab-btn" data-mode="all" aria-pressed="false">
+          <div class="tab-name">Bond + building loan</div>
+          <div class="tab-desc">The full debt picture: attack kills the bond, then rolls everything onto the unit loan.</div>
+        </button>
+      </div>
       <div class="sliders">
         <div class="slider">
           <label>Extra payment per month <output id="o-extra"></output></label>
-          <input type="range" id="in-extra" min="0" max="35000" step="1000" value="20000" aria-label="Extra bond payment per month">
+          <input type="range" id="in-extra" min="0" max="35000" step="1000" value="20000" aria-label="Extra payment per month">
           <div class="hint">On top of the R14,326 instalment</div>
         </div>
         <div class="slider">
@@ -158,16 +182,20 @@
           <div class="hint">Months from now — realistic once the side income lands</div>
         </div>
         <div class="slider">
-          <label>Bond interest rate <output id="o-rate"></output></label>
-          <input type="range" id="in-rate" min="8" max="13.5" step="0.01" value="10.56" aria-label="Bond interest rate">
+          <label>Interest rate <output id="o-rate"></output></label>
+          <input type="range" id="in-rate" min="8" max="13.5" step="0.01" value="10.56" aria-label="Interest rate">
           <div class="hint">10.56% since 29 May 2026 — prime-linked, so it can move</div>
+        </div>
+        <div class="slider toggle" id="rentjoin-wrap" style="display:none">
+          <label><input type="checkbox" id="in-rentjoin" checked> Units' rent attacks the debt too</label>
+          <div class="hint">The full R15,000/mo rent goes into the loans instead of pocketing the R5,683 net</div>
         </div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>The balance, attacked vs left alone</h2>
+    <h2 id="bal-title">The balance, attacked vs left alone</h2>
     <p class="sub">The grey line is the bank's plan for you. The blue line is your plan for the bank.</p>
     <div class="chart-card">
       <div class="legend" id="legend-bal"></div>
@@ -177,7 +205,7 @@
 
   <section>
     <h2>Interest paid, month by month</h2>
-    <p class="sub">Every month the balance stays high, the bank collects ~R10,000 in interest before a cent touches the capital. The gap between these curves is money that stays in the family.</p>
+    <p class="sub">Every month the balances stay high, the bank collects interest before a cent touches the capital. The gap between these curves is money that stays in the family.</p>
     <div class="chart-card">
       <div class="legend" id="legend-int"></div>
       <div class="chart-box" id="chart-int"></div>
@@ -191,7 +219,7 @@
   </section>
 
   <footer>
-    <p><strong>Model assumptions:</strong> bond figures from the 28 May 2026 Standard Bank statement (R1,137,218 at 10.56%, instalment R14,325.95, 139 months remaining). The attack adds a fixed extra payment from the chosen start month until the balance is zero. Interest compounds monthly; the rate is held constant at the slider value. The planned two rental units and the rest of the household picture live on the <a href="index.html" style="color:var(--accent)">main dashboard</a> — this page isolates the bond so the effect of the attack is unmistakable.</p>
+    <p><strong>Model assumptions:</strong> bond figures from the 28 May 2026 Standard Bank statement (R1,137,218 at 10.56%, instalment R14,325.95, 139 months remaining). Building loan per the family plan: R840,000 drawn January 2027, 15 years at the same rate (repayment ≈ R9,317/mo), units renting R7,500 × 2 from July 2027 — rent held constant here (conservative; it escalates on the <a href="index.html" style="color:var(--accent)">main dashboard</a>). The attack pays the home bond first; when it dies, the freed instalment plus the attack rolls onto the building loan. Rates held constant at the slider value.</p>
     <p><strong>This is an educational planning model, not financial advice.</strong> Claude is not a licensed financial services provider under FAIS. Confirm figures with Standard Bank and a licensed adviser. Check that the bond is an access-type facility so attacked capital stays reachable in an emergency.</p>
   </footer>
 </div>
@@ -201,8 +229,8 @@
   "use strict";
 
   var BAL = 1137218, PAY = 14326;
+  var FLAT_COST = 840000, FLAT_DRAW_M = 6, FLAT_RENT_M = 12, FLAT_TERM = 180, FLAT_RENT = 15000;
   var START = { y: 2026, m: 7 };     // month 0 = July 2026
-  var N = 150;                        // through Dec 2038
   var RETIRE_M = 53;                  // Dec 2030
 
   var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -217,35 +245,62 @@
     if (Math.abs(v) >= 1e3) return "R" + Math.round(v / 1e3) + "k";
     return "R" + Math.round(v);
   }
+  function pmt(P, annualRate, n) {
+    var r = annualRate / 12;
+    return P * r / (1 - Math.pow(1 + r, -n));
+  }
   var css = function (v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); };
 
-  function run(extra, startM, rate) {
-    var bal = BAL, cumInt = 0, contributed = 0;
+  function run(extra, startM, rate, mode, rentJoins) {
+    var N = mode === "all" ? 192 : 150;
+    var bal = BAL, flatBal = 0, cumInt = 0, contributed = 0;
+    var flatPmtBase = pmt(FLAT_COST, rate, FLAT_TERM);
     var balSeries = [], intSeries = [], payoffIdx = -1;
     for (var m = 0; m < N; m++) {
+      if (mode === "all" && m === FLAT_DRAW_M) flatBal = FLAT_COST;
+
+      var freed = 0;
       if (bal > 0) {
         var interest = bal * rate / 12;
         cumInt += interest;
         var budget = PAY + (m >= startM ? extra : 0);
         var pay = Math.min(bal + interest, budget);
-        if (m >= startM) contributed += Math.max(0, Math.min(extra, pay - Math.min(pay, PAY)));
         bal = bal + interest - pay;
-        if (bal <= 0.5) { bal = 0; if (payoffIdx < 0) payoffIdx = m; }
+        if (bal <= 0.5) { bal = 0; freed = budget - pay; }
+      } else {
+        freed = PAY + (m >= startM ? extra : 0);
       }
-      balSeries.push(bal);
+
+      if (flatBal > 0) {
+        var fint = flatBal * rate / 12;
+        cumInt += fint;
+        var fbudget = flatPmtBase + freed;
+        if (rentJoins && m >= FLAT_RENT_M) fbudget = Math.max(fbudget, FLAT_RENT + freed);
+        var fpay = Math.min(flatBal + fint, fbudget);
+        flatBal = flatBal + fint - fpay;
+        if (flatBal <= 0.5) flatBal = 0;
+      }
+
+      var anyAhead = mode === "all" && m < FLAT_DRAW_M;
+      if (payoffIdx < 0 && m > 0 && bal === 0 && flatBal === 0 && !anyAhead) payoffIdx = m;
+      if (m >= startM && payoffIdx < 0) contributed += extra;
+
+      balSeries.push(bal + flatBal);
       intSeries.push(cumInt);
     }
-    return { bal: balSeries, interest: intSeries, payoffIdx: payoffIdx, totalInterest: cumInt, contributed: contributed };
+    return { bal: balSeries, interest: intSeries, payoffIdx: payoffIdx, totalInterest: cumInt,
+             contributed: contributed, flatPmt: flatPmtBase, N: N };
   }
 
   function lineChart(hostId, series, opts) {
     var host = document.getElementById(hostId);
-    var W = 900, H = 320, padL = 60, padR = 100, padT = 14, padB = 30;
+    var n = series[0].values.length;
+    var W = 900, H = 320, padL = 60, padR = 108, padT = 14, padB = 30;
     var iw = W - padL - padR, ih = H - padT - padB;
     var maxV = 0;
     series.forEach(function (s) { s.values.forEach(function (v) { if (v > maxV) maxV = v; }); });
     maxV = maxV * 1.06 || 1;
-    function x(i) { return padL + (i / (N - 1)) * iw; }
+    function x(i) { return padL + (i / (n - 1)) * iw; }
     function y(v) { return padT + ih - (v / maxV) * ih; }
 
     var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + opts.aria + '">';
@@ -254,7 +309,7 @@
       svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + gy + '" y2="' + gy + '" stroke="' + css("--grid") + '"/>';
       svg += '<text x="' + (padL - 8) + '" y="' + (gy + 4) + '" text-anchor="end" font-size="11" fill="' + css("--muted") + '">' + fmtShort(gv) + "</text>";
     }
-    for (var i = 0; i < N; i++) {
+    for (var i = 0; i < n; i++) {
       var d = ymOf(i);
       if (d.m === 0 && d.y % 2 === 1) {
         svg += '<text x="' + x(i) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="11" fill="' + css("--muted") + '">' + d.y + "</text>";
@@ -285,8 +340,8 @@
     svgEl.addEventListener("mousemove", function (ev) {
       var r = svgEl.getBoundingClientRect();
       var px = (ev.clientX - r.left) * (W / r.width);
-      var idx = Math.round(((px - padL) / iw) * (N - 1));
-      if (idx < 0 || idx >= N) { tip.style.display = "none"; cross.style.display = "none"; return; }
+      var idx = Math.round(((px - padL) / iw) * (n - 1));
+      if (idx < 0 || idx >= n) { tip.style.display = "none"; cross.style.display = "none"; return; }
       cross.setAttribute("x1", x(idx)); cross.setAttribute("x2", x(idx)); cross.style.display = "";
       var html = '<div class="t-title">' + labelOf(idx) + "</div>";
       series.forEach(function (s) {
@@ -304,7 +359,7 @@
   function facts(extra) {
     var items = [
       ["The side income (the plan)", "Zubayr takes home R13,200 — the attack is funded by the Builder plan: AI-automation consulting or high-ticket sales into the existing accountant/FSP pipeline. Roughly R25,000–27,000/month of side revenue clears " + fmtR(extra) + " after tax. The attack starts the month the income does, not before — which is why the start-month slider exists."],
-      ["The family surplus (the bridge)", "With food discipline the household already clears R36,503/month. The family can run the attack from the shared surplus until Zubayr's income replaces it — same rand, same effect on the bond, different pocket. What matters is that the debit order starts."],
+      ["The family surplus (the bridge)", "With food discipline the household already clears R36,503/month. The family can run the attack from the shared surplus until Zubayr's income replaces it — same rand, same effect on the debt, different pocket. What matters is that the debit order starts."],
       ["What NOT to fund it from", "Not the R40,000 war chest (that's the emergency float until the GEPF figure is known), not the TFSA debit orders (R46,000/year of lifetime-limited room — keep filling it), and not a vehicle loan's worth of new debt. The attack is surplus cash only."]
     ];
     document.getElementById("facts").innerHTML = items.map(function (d, i) {
@@ -312,34 +367,41 @@
     }).join("");
   }
 
+  var mode = "bond";
+
   function renderAll() {
     var extra = +document.getElementById("in-extra").value;
     var startM = +document.getElementById("in-start").value;
     var rate = +document.getElementById("in-rate").value / 100;
+    var rentJoins = document.getElementById("in-rentjoin").checked;
 
     document.getElementById("o-extra").textContent = fmtR(extra) + "/mo";
     document.getElementById("o-start").textContent = labelOf(startM);
     document.getElementById("o-rate").textContent = (rate * 100).toFixed(2).replace(/\.?0+$/, "") + "%";
+    document.getElementById("rentjoin-wrap").style.display = mode === "all" ? "" : "none";
+    document.getElementById("bal-title").textContent = mode === "all" ? "All property debt, attacked vs left alone" : "The balance, attacked vs left alone";
 
-    var base = run(0, startM, rate);
-    var atk = run(extra, startM, rate);
+    var base = run(0, startM, rate, mode, false);
+    var atk = run(extra, startM, rate, mode, mode === "all" && rentJoins);
 
-    var basePayoff = base.payoffIdx >= 0 ? base.payoffIdx : N - 1;
-    var atkPayoff = atk.payoffIdx >= 0 ? atk.payoffIdx : N - 1;
+    var basePayoff = base.payoffIdx >= 0 ? base.payoffIdx : base.N - 1;
+    var atkPayoff = atk.payoffIdx >= 0 ? atk.payoffIdx : atk.N - 1;
     var monthsEarly = basePayoff - atkPayoff;
     var saved = base.totalInterest - atk.totalInterest;
-    var freed = PAY + extra;
+    var freed = PAY + extra + (mode === "all" ? atk.flatPmt : 0);
     var beforeRet = atk.payoffIdx >= 0 && atk.payoffIdx <= RETIRE_M;
+    var debtWord = mode === "all" ? "All debt dies" : "Bond dies";
+    var baseSched = mode === "all" ? "Dec 2041" : "Dec 2037";
 
     document.getElementById("kpis").innerHTML =
-      kpi("Bond dies", atk.payoffIdx >= 0 ? labelOf(atk.payoffIdx) : "beyond 2038",
-          "attacking with " + fmtR(extra) + "/mo from " + labelOf(startM),
+      kpi(debtWord, atk.payoffIdx >= 0 ? labelOf(atk.payoffIdx) : "beyond horizon",
+          "attacking with " + fmtR(extra) + "/mo from " + labelOf(startM) + (mode === "all" && rentJoins ? " + units' rent" : ""),
           beforeRet ? ["good", "before Mum retires ✓"] : ["warn", "after retirement — hit harder"]) +
-      kpi("Years won back", (monthsEarly / 12).toFixed(1) + " years", "vs the bank's Dec 2037 schedule",
+      kpi("Years won back", (monthsEarly / 12).toFixed(1) + " years", "vs the bank's " + baseSched + " schedule",
           ["good", monthsEarly + " months earlier"]) +
       kpi("Interest kept in the family", fmtShort(saved), "total interest the bank never collects",
           ["good", "guaranteed, tax-free return"]) +
-      kpi("Cash freed at payoff", fmtR(freed) + "/mo", "instalment + attack money, back in your pocket",
+      kpi("Cash freed at payoff", fmtR(freed) + "/mo", mode === "all" ? "both instalments + attack money, back in your pocket" : "instalment + attack money, back in your pocket",
           ["good", "redirect to investments"]) +
       kpi("Total attack capital", fmtShort(atk.contributed), "sum of extra payments until payoff",
           ["warn", "must exist — see funding below"]);
@@ -352,7 +414,7 @@
     lineChart("chart-bal", [
       { name: "No attack", color: css("--s-base"), values: base.bal, emph: false, endIdx: base.payoffIdx, endLabel: base.payoffIdx >= 0 ? labelOf(base.payoffIdx) : "still owing" },
       { name: "With attack", color: css("--s-attack"), values: atk.bal, emph: true, endIdx: atk.payoffIdx, endLabel: atk.payoffIdx >= 0 ? labelOf(atk.payoffIdx) : "still owing" }
-    ], { aria: "Bond balance over time, with and without the extra payments" });
+    ], { aria: "Debt balance over time, with and without the extra payments" });
 
     lineChart("chart-int", [
       { name: "No attack", color: css("--s-base"), values: base.interest, emph: false, endIdx: -1, endLabel: fmtShort(base.totalInterest) + " to the bank" },
@@ -367,8 +429,15 @@
   }
 
   renderAll();
-  ["in-extra", "in-start", "in-rate"].forEach(function (id) {
+  ["in-extra", "in-start", "in-rate", "in-rentjoin"].forEach(function (id) {
     document.getElementById(id).addEventListener("input", renderAll);
+  });
+  document.getElementById("tabs").addEventListener("click", function (ev) {
+    var btn = ev.target.closest(".tab-btn");
+    if (!btn) return;
+    mode = btn.dataset.mode;
+    document.querySelectorAll(".tab-btn").forEach(function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
+    renderAll();
   });
   var mq = window.matchMedia("(prefers-color-scheme: dark)");
   if (mq.addEventListener) mq.addEventListener("change", renderAll);
