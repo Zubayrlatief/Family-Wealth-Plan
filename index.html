@@ -289,18 +289,18 @@
           <div class="hint">AI automation / high-ticket sales ramp</div>
         </div>
         <div class="slider toggle">
-          <label><input type="checkbox" id="in-flat-on" checked> Build the separate-entrance unit</label>
+          <label><input type="checkbox" id="in-flat-on" checked> Build the two rental units (70 m²)</label>
           <div class="hint">Loan at the bond rate over 15 years; build Jan–Jun 2027, first rent July 2027. Home bond is paid off first, then its full payment rolls into this loan.</div>
         </div>
         <div class="slider">
           <label>Build cost <output id="o-fcost"></output></label>
-          <input type="range" id="in-fcost" min="300000" max="1100000" step="10000" value="480000" aria-label="New unit build cost">
-          <div class="hint">Site measures 8.8 × 6.6 m (58 m²). At R12,000/m²: 40 m² = R480k · full footprint ≈ R697k · 70 m² double-storey ≈ R980k–1.05m at R14–15k/m²</div>
+          <input type="range" id="in-fcost" min="300000" max="1100000" step="10000" value="840000" aria-label="Build cost for the two units">
+          <div class="hint">70 m² × R12,000/m² = R840k — two kitchens/bathrooms usually price at R13–14k/m² (R910k–980k), so get fixed quotes</div>
         </div>
         <div class="slider">
-          <label>New unit rent <output id="o-frent"></output></label>
-          <input type="range" id="in-frent" min="6000" max="16000" step="250" value="9000" aria-label="New unit monthly rent">
-          <div class="hint">Similar units nearby set the ceiling — check actual listings before believing R13k+</div>
+          <label>Combined rent (both units) <output id="o-frent"></output></label>
+          <input type="range" id="in-frent" min="6000" max="16000" step="250" value="13000" aria-label="Combined monthly rent for both units">
+          <div class="hint">Two separate entrances at R6,500 each</div>
         </div>
       </div>
     </div>
@@ -359,7 +359,7 @@
   </section>
 
   <footer>
-    <p><strong>Model assumptions:</strong> bond facts from the 28 May 2026 Standard Bank statement — R1,137,218 outstanding at 10.56%, instalment R14,325.95, with the R989 service fee and homeowner's insurance kept inside household expenses; salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Rentals corrected July 2026 to actuals: Mariam R6,000 + Tasneem R9,000 = R15,000/mo. The separate-entrance unit is modelled as a 15-year loan at the bond rate, drawn January 2027, built over six months, first rent July 2027, rent escalating 5%/year; once the home bond is settled its full payment rolls into the flat loan. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Household inflow includes R2,410 of unitemised income carried over from the bank-statement analysis.</p>
+    <p><strong>Model assumptions:</strong> bond facts from the 28 May 2026 Standard Bank statement — R1,137,218 outstanding at 10.56%, instalment R14,325.95, with the R989 service fee and homeowner's insurance kept inside household expenses; salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Rentals corrected July 2026 to actuals: Mariam R6,000 + Tasneem R9,000 = R15,000/mo. The two rental units (70 m², separate entrances, R6,500 each) are modelled as one 15-year loan at the bond rate, drawn January 2027, built over six months, first rent July 2027, rent escalating 5%/year; once the home bond is settled its full payment rolls into this loan. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Household inflow includes R2,410 of unitemised income carried over from the bank-statement analysis.</p>
     <p><strong>This is an educational planning model, not financial advice.</strong> Claude is not a licensed financial services provider under FAIS. Confirm the pension with GEPF, the bond terms with Standard Bank, and any investment or retirement decision with a licensed adviser.</p>
   </footer>
 </div>
@@ -587,7 +587,7 @@
       svg += '<text x="' + (padL - 10) + '" y="' + (yTop + bh / 2 + 4) + '" text-anchor="end" font-size="12.5" font-weight="' + (sel ? 700 : 500) + '" fill="' + (sel ? css("--ink") : css("--ink-2")) + '">' + s.name + "</text>";
 
       var cx = padL;
-      [["pension", r.pension, "GEPF"], ["rent", r.rent, "Rentals"], ["flat", r.flat, "New unit"], ["maya", r.maya, "Bread"]].forEach(function (seg) {
+      [["pension", r.pension, "GEPF"], ["rent", r.rent, "Rentals"], ["flat", r.flat, "New units"], ["maya", r.maya, "Bread"]].forEach(function (seg) {
         if (seg[1] <= 0) return;
         var w = Math.max(0, (seg[1] / maxV) * (W - padL - padR) - 2);
         svg += '<rect x="' + cx + '" y="' + yTop + '" width="' + w + '" height="' + bh + '" rx="4" fill="' + segColors[seg[0]] + '"/>';
@@ -611,7 +611,7 @@
     document.getElementById("legend-mum").innerHTML =
       '<span><span class="swatch" style="background:' + segColors.pension + '"></span>GEPF pension (slider)</span>' +
       '<span><span class="swatch" style="background:' + segColors.rent + '"></span>Rental income</span>' +
-      '<span><span class="swatch" style="background:' + segColors.flat + '"></span>New unit rent</span>' +
+      '<span><span class="swatch" style="background:' + segColors.flat + '"></span>New units rent</span>' +
       '<span><span class="swatch" style="background:' + segColors.maya + '"></span>Maya Baker bread</span>' +
       '<span><span class="swatch" style="border:1.5px dashed ' + css("--critical") + ';background:transparent"></span>Loan repayments still owing</span>';
   }
@@ -647,7 +647,7 @@
     var items = [
       ["Call GEPF this week — 0800 117 669", "Every retirement number on this page swings on one unconfirmed figure: Sumaya’s pension. A R10,000/month difference in that estimate changes the entire plan more than any investment decision could. It costs one phone call. While on with Parliament HR, confirm GEMS medical aid continuation after retirement.", "Removes the biggest unknown in the whole model — free"],
       ["Kill the bond by retirement — gratuity as the final blow", "R1,137,218 owing at 10.56% (28 May 2026 statement) with 139 months to run. Extra payments of R5,000–8,000/month from January 2027 cut the balance at retirement to roughly R360,000–540,000 — small enough to settle in one move from the tax-free portion of the GEPF gratuity. Clearing it by 2030 without the gratuity would take ~R14,000/month extra. Every rand prepaid earns a guaranteed 10.56% after tax; keep the R40,000 cash as an emergency float until the GEPF figure is known.", "≈ R15,315/mo freed at exactly the moment the salary stops"],
-      ["Build the separate-entrance unit — the numbers work", "The site measures 8.8 × 6.6 m (58 m²). At R12,000/m², a 40 m² unit costs R480,000 and rents at R9,000 — a 22.5% gross yield on cost because the land is already owned, with a 15-year repayment of ~R5,324/month leaving ~R3,700/month to spare from the first tenant. Price the alternative too: two ~29 m² studios on the full footprint (~R700–750k) rent for R12,000–13,000 combined and halve the vacancy risk. Guard-rails: fixed-price building contract, City of Cape Town plan approval and NHBRC enrolment before any money is borrowed, and 10–15% contingency on the build cost.", "+R9,000/mo income for R5,324/mo repayment — self-funding from month one"],
+      ["Build the two rental units — the numbers work", "70 m² split into two separate-entrance units at R6,500 each = R13,000/month. At R12,000/m² the build is R840,000 with a 15-year repayment of ~R9,316/month — self-funding with ~R3,700/month to spare, and one occupied unit alone covers ~70% of the repayment. Two tenants at the R6,500 price point beat one expensive tenant: deeper demand, faster to fill, half the vacancy risk. Guard-rails: two kitchens and bathrooms usually price at R13–14k/m², so get fixed quotes; Standard Bank must consent (the property is their security); City of Cape Town plan approval and NHBRC before any money is borrowed; 10–15% contingency; prepaid electricity meters and proper tenant vetting.", "+R13,000/mo income for ~R9,316/mo repayment — self-funding from month one"],
       ["Do not buy the vehicle yet", "The bakkie costs R8,150–9,300/month before it earns a rand — almost exactly the entire bond-acceleration budget. The pattern in the vehicle discussion (R160k → R217k → R300k, all before revenue) is the same evaluation loop, wearing wheels. Rule: the business pays for the vehicle, never the reverse.", "Protects ≈ R100k+/yr from premature commitment"],
       ["Fix the TFSA in twenty minutes", "Sell Satrix Shariah Top 40 and split the proceeds between Satrix Top 40 and S&P 500; switch every dividend from cash to reinvest; set a R1,000/month debit order. The R500,000 lifetime limit makes early months disproportionately valuable — a rand contributed at 21 has 40+ years of tax-free compounding ahead of it. Stop contributing to the taxable ZAR account entirely.", "Decades of tax-free compounding, started this week"],
       ["Food discipline is worth R128,568 a year", "Groceries (R11,475) plus takeaways (R4,919) trimmed to a planned budget releases R10,714/month — which funds the entire bond acceleration and the TFSA debit order with change. It’s the only line on the statement that moves this much without anyone earning more.", "+R10,714/mo — funds decisions 2 and 4 entirely"],
@@ -667,7 +667,7 @@
       ["Switch TFSA dividends from cash to reinvest", "EasyEquities settings, all holdings"],
       ["Set up R1,000/mo TFSA debit order", "Into the TFSA only — not the ZAR account"],
       ["Add AI-automation offer to the Instantly sequence and send to 500 leads", "Same accountant/FSP list — judge by replies in 30 days"],
-      ["Get two fixed-price quotes + plans for the separate entrance", "City of Cape Town building plan approval and NHBRC before borrowing"],
+      ["Get two fixed-price quotes + plans for the two rental units", "City of Cape Town approval, NHBRC and Standard Bank consent before borrowing"],
       ["Book will drafting for both Zubayr and Sumaya", "Bank or attorney — the rentals make this urgent"],
       ["Confirm GEMS continuation after retirement with Parliament HR", "Same call as the GEPF chase if possible"]
     ];
@@ -695,9 +695,9 @@
     var mumNet = mum.pension + mum.rent + mum.maya + mum.flat - (mum.bondOwing ? mum.bondPay : 0);
     var flatNet = p.flatRent - r.flatPmt;
     var flatKpi = p.flatOn
-      ? kpi("New unit · net cash flow", (flatNet >= 0 ? "+" : "") + fmtR(flatNet) + "/mo", fmtShort(p.flatCost) + " loan · repay " + fmtR(r.flatPmt) + "/mo over 15y",
-            flatNet > 0 ? ["good", "pays for itself ✓"] : ["crit", "rent below repayment"])
-      : kpi("New unit", "not built", "toggle it on to model the build", ["warn", Math.round(p.flatRent * 12 / p.flatCost * 100) + "% yield waiting"]);
+      ? kpi("New units · net cash flow", (flatNet >= 0 ? "+" : "") + fmtR(flatNet) + "/mo", fmtShort(p.flatCost) + " loan · repay " + fmtR(r.flatPmt) + "/mo over 15y",
+            flatNet > 0 ? ["good", "pay for themselves ✓"] : ["crit", "rent below repayment"])
+      : kpi("New units", "not built", "toggle them on to model the build", ["warn", Math.round(p.flatRent * 12 / p.flatCost * 100) + "% yield waiting"]);
     var mumPill = mumNet >= 35000 ? ['good', 'above target ✓'] : mumNet >= 25000 ? ['good', 'inside target band ✓'] : ['crit', fmtR(25000 - mumNet) + ' below target'];
     var assets35 = r.assets[N - 1];
 
