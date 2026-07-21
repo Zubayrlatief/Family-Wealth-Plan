@@ -268,7 +268,7 @@
 
   <section>
     <h2>Choose a path, set the unknowns</h2>
-    <p class="sub">Three scenarios share the same household facts and differ only in behaviour. Two numbers are still unconfirmed — the bond balance and the GEPF pension — so they're sliders, not assumptions buried in a spreadsheet.</p>
+    <p class="sub">Three scenarios share the same household facts and differ only in behaviour. The bond (statement) and the GEPF pension (estimate: R19,900/mo + R979,000 gratuity) are now confirmed — the sliders let you stress-test them.</p>
     <div class="panel">
       <div class="scenarios" id="scenarios" role="group" aria-label="Scenario"></div>
       <div class="sliders">
@@ -283,9 +283,9 @@
           <div class="hint">10.56% since 29 May 2026 (prime 10.50%)</div>
         </div>
         <div class="slider">
-          <label>GEPF pension estimate <output id="o-pension"></output></label>
-          <input type="range" id="in-pension" min="5000" max="35000" step="1000" value="15000" aria-label="GEPF monthly pension estimate">
-          <div class="hint">Unknown until you call 0800 117 669</div>
+          <label>GEPF pension <output id="o-pension"></output></label>
+          <input type="range" id="in-pension" min="5000" max="35000" step="100" value="19900" aria-label="GEPF monthly pension">
+          <div class="hint">GEPF estimate: R19,900/mo + R979,000 gratuity — slider is for what-ifs</div>
         </div>
         <div class="slider">
           <label>Builder side income (12-mo target) <output id="o-side"></output></label>
@@ -363,7 +363,7 @@
   </section>
 
   <footer>
-    <p><strong>Model assumptions:</strong> bond facts from the 28 May 2026 Standard Bank statement — R1,137,218 outstanding at 10.56%, instalment R14,325.95, with the R989 service fee and homeowner's insurance kept inside household expenses; salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF pension held flat (conservative — GEPF pensions typically receive annual increases); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Rentals corrected July 2026 to actuals: Mariam R6,000 + Tasneem R9,000 = R15,000/mo. The two rental units (70 m², separate entrances, R7,500 each) are modelled as one 15-year loan at the bond rate, drawn January 2027, built over six months, first rent July 2027, rent escalating 5%/year; once the home bond is settled its full payment rolls into this loan. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Household inflow includes R2,410 of unitemised income carried over from the bank-statement analysis.</p>
+    <p><strong>Model assumptions:</strong> bond facts from the 28 May 2026 Standard Bank statement — R1,137,218 outstanding at 10.56%, instalment R14,325.95, with the R989 service fee and homeowner's insurance kept inside household expenses; salaries, rentals and expenses escalate 5%/year; investments return 9% nominal/year; GEPF estimate received July 2026: pension R19,900/mo and gratuity R979,000 (≈R901,800 after retirement lump-sum tax), pension held flat in the model (conservative — GEPF grants annual increases of at least 75% of CPI); Sumaya's salary ends December 2030 and the pension starts January 2031; extra bond payments begin January 2027; Builder side income ramps over 12 months from October 2026. Rentals corrected July 2026 to actuals: Mariam R6,000 + Tasneem R9,000 = R15,000/mo. The two rental units (70 m², separate entrances, R7,500 each) are modelled as one 15-year loan at the bond rate, drawn January 2027, built over six months, first rent July 2027, rent escalating 5%/year; once the home bond is settled its full payment rolls into this loan. Starting investable assets ≈ R89,000 (TFSA R3,129 + EasyEquities ZAR R210 + Discovery savings R19,563 + SA Bullion gold R26,468 + R40,000 deployable cash). Household inflow includes R2,410 of unitemised income carried over from the bank-statement analysis.</p>
     <p><strong>This is an educational planning model, not financial advice.</strong> Claude is not a licensed financial services provider under FAIS. Confirm the pension with GEPF, the bond terms with Standard Bank, and any investment or retirement decision with a licensed adviser.</p>
   </footer>
 </div>
@@ -649,7 +649,7 @@
   /* ---------- decisions ---------- */
   function decisions() {
     var items = [
-      ["Call GEPF this week — 0800 117 669", "Every retirement number on this page swings on one unconfirmed figure: Sumaya’s pension. A R10,000/month difference in that estimate changes the entire plan more than any investment decision could. It costs one phone call. While on with Parliament HR, confirm GEMS medical aid continuation after retirement.", "Removes the biggest unknown in the whole model — free"],
+      ["GEPF figures are in: R19,900/mo + R979,000 gratuity ✓", "The biggest unknown is resolved. The gratuity nets ≈ R901,800 after lump-sum tax (first R550,000 tax-free, the balance at 18%). Next moves: get the estimate in writing from GEPF, confirm GEMS medical aid continuation with Parliament HR, and weigh retiring at 60 instead of 59 — the 0.33%-per-month early penalty means each year earlier costs ~4% of both the pension and the gratuity, for life.", "Pension + rentals + units ≈ R56,000/mo at Jan 2031 — target reached"],
       ["Kill the bond by retirement — gratuity as the final blow", "R1,137,218 owing at 10.56% (28 May 2026 statement) with 139 months to run. Extra payments of R5,000–8,000/month from January 2027 cut the balance at retirement to roughly R360,000–540,000 — small enough to settle in one move from the tax-free portion of the GEPF gratuity. Clearing it by 2030 without the gratuity would take ~R14,000/month extra. Every rand prepaid earns a guaranteed 10.56% after tax; keep the R40,000 cash as an emergency float until the GEPF figure is known.", "≈ R15,315/mo freed at exactly the moment the salary stops"],
       ["Build the two rental units — the numbers work", "70 m² split into two separate-entrance units at R7,500 each = R15,000/month. At R12,000/m² the build is R840,000 with a 15-year repayment of ~R9,317/month — self-funding with ~R5,700/month to spare, and one occupied unit alone covers ~80% of the repayment. Two tenants beat one expensive tenant: deeper demand, faster to fill, half the vacancy risk — but R7,500 must be proven against live listings in the area, since at R6,500 the margin is still a healthy ~R3,700. Guard-rails: two kitchens and bathrooms usually price at R13–14k/m², so get fixed quotes; Standard Bank must consent (the property is their security); City of Cape Town plan approval and NHBRC before any money is borrowed; 10–15% contingency; prepaid electricity meters and proper tenant vetting.", "+R15,000/mo income for ~R9,317/mo repayment — self-funding from month one"],
       ["Do not buy the vehicle yet", "The bakkie costs R8,150–9,300/month before it earns a rand — almost exactly the entire bond-acceleration budget. The pattern in the vehicle discussion (R160k → R217k → R300k, all before revenue) is the same evaluation loop, wearing wheels. Rule: the business pays for the vehicle, never the reverse.", "Protects ≈ R100k+/yr from premature commitment"],
@@ -666,7 +666,7 @@
   /* ---------- checklist ---------- */
   function checklist() {
     var items = [
-      ["Call GEPF on 0800 117 669 for Mum’s benefit estimate", "Ask for the monthly pension at Dec 2030 retirement plus any lump sum"],
+      ["Get the GEPF estimate in writing (R19,900/mo + R979,000)", "Official benefit statement — plus confirm GEMS continuation with Parliament HR"],
       ["Sell Satrix Shariah Top 40; rebalance 50/50 Top 40 & S&P 500", "EasyEquities — 5 minutes"],
       ["Switch TFSA dividends from cash to reinvest", "EasyEquities settings, all holdings"],
       ["Set up R1,000/mo TFSA debit order", "Into the TFSA only — not the ZAR account"],
@@ -714,7 +714,7 @@
       flatKpi +
       kpi("Investable assets · May 2035", fmtShort(assets35), "9% nominal · " + Math.round(s.saveRate * 100) + "% of surplus invested",
           ["good", "+" + fmtShort(assets35 - results.drift.assets[N - 1]) + " vs drift"]) +
-      kpi("War chest · today", "R40 000", "deployable cash · credit score 650", ["warn", "hold until GEPF figure known"]);
+      kpi("War chest · today", "R40 000", "deployable cash · gratuity ≈R901,800 net arrives at retirement", ["good", "R979k gratuity confirmed"]);
 
     function kpi(label, value, note, pill) {
       return '<div class="kpi"><div class="k-label">' + label + '</div><div class="k-value">' + value + '</div><div class="k-note">' + note + '</div><span class="pill ' + pill[0] + '">' + pill[1] + "</span></div>";
