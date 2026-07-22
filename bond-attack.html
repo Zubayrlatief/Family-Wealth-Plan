@@ -148,9 +148,9 @@
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">Private · Family planning model · Zubayr's mission</div>
+    <div class="eyebrow">Private · Family planning model · The family mission</div>
     <h1>The Bond Attack</h1>
-    <p class="lede">What happens when Zubayr puts <strong>R20,000 a month</strong> of his own income against the family's property debt — the Standard Bank bond of <strong>R1,137,218 at 10.56%</strong>, and optionally the <strong>R840,000 building loan</strong> for the two rental units. Pick a view, set the attack; every figure recalculates.</p>
+    <p class="lede">The family attacks its property debt together: <strong>Zubayr R5,000</strong> + <strong>Mum R20,000</strong> every month, plus the <strong>R15,000 rent</strong> from the two units once they're built — roughly <strong>R30,000/month of firepower</strong> against the Standard Bank bond of R1,137,218 at 10.56% and the R840,000 building loan. Set each person's share below; every figure recalculates.</p>
     <p class="backlink"><a href="index.html">← Back to the family wealth dashboard</a></p>
   </header>
 
@@ -172,9 +172,14 @@
       </div>
       <div class="sliders">
         <div class="slider">
-          <label>Extra payment per month <output id="o-extra"></output></label>
-          <input type="range" id="in-extra" min="0" max="35000" step="1000" value="20000" aria-label="Extra payment per month">
-          <div class="hint">On top of the R14,326 instalment</div>
+          <label>Zubayr's attack <output id="o-z"></output></label>
+          <input type="range" id="in-z" min="0" max="25000" step="500" value="5000" aria-label="Zubayr's extra payment per month">
+          <div class="hint">From salary now, scaled up when the side income lands</div>
+        </div>
+        <div class="slider">
+          <label>Mum's attack <output id="o-m"></output></label>
+          <input type="range" id="in-m" min="0" max="30000" step="500" value="20000" aria-label="Mum's extra payment per month">
+          <div class="hint">From her salary surplus — the disciplined household clears R36,503/mo</div>
         </div>
         <div class="slider">
           <label>Attack starts <output id="o-start"></output></label>
@@ -213,8 +218,8 @@
   </section>
 
   <section>
-    <h2>Where the R20,000 comes from — the honest part</h2>
-    <p class="sub">This page only works if the money exists. Three ways to fund it, in order of preference.</p>
+    <h2>Who funds the attack — the honest part</h2>
+    <p class="sub">Three attackers, one debt. This page only works if each contribution actually happens every month.</p>
     <div class="panel" id="facts"></div>
   </section>
 
@@ -356,11 +361,12 @@
     svgEl.addEventListener("mouseleave", function () { tip.style.display = "none"; cross.style.display = "none"; });
   }
 
-  function facts(extra) {
+  function facts(zAtk, mAtk) {
     var items = [
-      ["The side income (the plan)", "Zubayr takes home R13,200 — the attack is funded by the Builder plan: AI-automation consulting or high-ticket sales into the existing accountant/FSP pipeline. Roughly R25,000–27,000/month of side revenue clears " + fmtR(extra) + " after tax. The attack starts the month the income does, not before — which is why the start-month slider exists."],
-      ["The family surplus (the bridge)", "With food discipline the household already clears R36,503/month. The family can run the attack from the shared surplus until Zubayr's income replaces it — same rand, same effect on the debt, different pocket. What matters is that the debit order starts."],
-      ["What NOT to fund it from", "Not the R40,000 war chest (that's the emergency float), not the TFSA debit orders (R46,000/year of lifetime-limited room — keep filling it), and not a vehicle loan's worth of new debt. The attack is surplus cash only. The R979,000 GEPF gratuity (≈R901,800 after lump-sum tax) arriving at retirement isn't needed here either — if the attack runs on schedule the debt dies before it lands, leaving the gratuity fully investable."]
+      ["Mum's share — " + fmtR(mAtk) + "/mo", "She earns R59,000 after tax, and with food discipline the household clears R36,503/month of surplus — her " + fmtR(mAtk) + " fits inside it with room left over. It's her bond, her house and her retirement: every rand she puts in earns a guaranteed 10.56% after tax, which nothing at the bank or on the JSE reliably matches at zero risk."],
+      ["Zubayr's share — " + fmtR(zAtk) + "/mo", "Sustainable from the R13,200 salary with discipline, and the slider scales up the day the side income lands (the AI-automation offer to the existing accountant/FSP pipeline). Every extra R1,000/month pulls the finish line closer — drag the slider to see by how much."],
+      ["The units' rent — R15,000/mo", "Once the two units are tenanted (July 2027), the checkbox above sends the full rent into the debt instead of pocketing the R5,683 net. This is the third attacker, and it costs the family nothing — the tenants fund it."],
+      ["What NOT to fund it from", "Not the R40,000 war chest (that's the emergency float), not the TFSA debit orders (R46,000/year of lifetime-limited room — keep filling both), and not a vehicle loan's worth of new debt. The attack is surplus cash only. The R979,000 GEPF gratuity (≈R901,800 after lump-sum tax) isn't needed here either — if the attack runs on schedule the debt dies before it lands, leaving the gratuity fully investable."]
     ];
     document.getElementById("facts").innerHTML = items.map(function (d, i) {
       return '<div class="fact"><div class="f-num">' + (i + 1) + "</div><div><h3>" + d[0] + "</h3><p>" + d[1] + "</p></div></div>";
@@ -370,12 +376,15 @@
   var mode = "bond";
 
   function renderAll() {
-    var extra = +document.getElementById("in-extra").value;
+    var zAtk = +document.getElementById("in-z").value;
+    var mAtk = +document.getElementById("in-m").value;
+    var extra = zAtk + mAtk;
     var startM = +document.getElementById("in-start").value;
     var rate = +document.getElementById("in-rate").value / 100;
     var rentJoins = document.getElementById("in-rentjoin").checked;
 
-    document.getElementById("o-extra").textContent = fmtR(extra) + "/mo";
+    document.getElementById("o-z").textContent = fmtR(zAtk) + "/mo";
+    document.getElementById("o-m").textContent = fmtR(mAtk) + "/mo";
     document.getElementById("o-start").textContent = labelOf(startM);
     document.getElementById("o-rate").textContent = (rate * 100).toFixed(2).replace(/\.?0+$/, "") + "%";
     document.getElementById("rentjoin-wrap").style.display = mode === "all" ? "" : "none";
@@ -395,7 +404,7 @@
 
     document.getElementById("kpis").innerHTML =
       kpi(debtWord, atk.payoffIdx >= 0 ? labelOf(atk.payoffIdx) : "beyond horizon",
-          "attacking with " + fmtR(extra) + "/mo from " + labelOf(startM) + (mode === "all" && rentJoins ? " + units' rent" : ""),
+          fmtR(extra) + "/mo (Zubayr " + fmtShort(zAtk) + " + Mum " + fmtShort(mAtk) + ") from " + labelOf(startM) + (mode === "all" && rentJoins ? " + units' rent" : ""),
           beforeRet ? ["good", "before Mum retires ✓"] : ["warn", "after retirement — hit harder"]) +
       kpi("Years won back", (monthsEarly / 12).toFixed(1) + " years", "vs the bank's " + baseSched + " schedule",
           ["good", monthsEarly + " months earlier"]) +
@@ -425,11 +434,11 @@
       return '<div class="kpi"><div class="k-label">' + label + '</div><div class="k-value">' + value + '</div><div class="k-note">' + note + '</div><span class="pill ' + pill[0] + '">' + pill[1] + "</span></div>";
     }
 
-    facts(extra);
+    facts(zAtk, mAtk);
   }
 
   renderAll();
-  ["in-extra", "in-start", "in-rate", "in-rentjoin"].forEach(function (id) {
+  ["in-z", "in-m", "in-start", "in-rate", "in-rentjoin"].forEach(function (id) {
     document.getElementById(id).addEventListener("input", renderAll);
   });
   document.getElementById("tabs").addEventListener("click", function (ev) {
