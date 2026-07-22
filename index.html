@@ -3,14 +3,14 @@
 <style>
   :root {
     color-scheme: light;
-    --bg: #f4f8fc;
+    --bg: #f7fafd;
     --surface: #ffffff;
-    --ink: #2a3542;
-    --ink-2: #5c6875;
-    --muted: #939daa;
-    --grid: #e9eef5;
-    --baseline: #d3dbe4;
-    --border: rgba(42,68,105,0.09);
+    --ink: #33404e;
+    --ink-2: #677386;
+    --muted: #98a2b0;
+    --grid: #edf1f7;
+    --baseline: #dbe2ea;
+    --border: rgba(50,80,120,0.08);
     --accent: #4a90e2;
     --s-drift: #9aa5b1;
     --s-disc: #4a90e2;
@@ -19,12 +19,13 @@
     --seg-rent: #35b58c;
     --seg-bread: #f2b04e;
     --seg-flat: #8f7fd9;
+    --seg-grat: #e87ba4;
     --good: #34ad63;
     --good-text: #1e7d47;
     --warning: #f5c04a;
     --critical: #e26d6d;
     --band: rgba(74,144,226,0.08);
-    --shadow: 0 1px 3px rgba(30,50,80,0.05), 0 10px 28px rgba(30,50,80,0.06);
+    --shadow: 0 1px 2px rgba(30,50,80,0.04), 0 12px 32px rgba(30,50,80,0.05);
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) {
@@ -45,6 +46,7 @@
       --seg-rent: #3cc79a;
       --seg-bread: #e0a24a;
       --seg-flat: #a79bf0;
+      --seg-grat: #d55181;
       --good: #34ad63;
       --good-text: #4cc47a;
       --band: rgba(106,165,232,0.12);
@@ -69,6 +71,7 @@
     --seg-rent: #3cc79a;
     --seg-bread: #e0a24a;
     --seg-flat: #a79bf0;
+    --seg-grat: #d55181;
     --good: #34ad63;
     --good-text: #4cc47a;
     --band: rgba(106,165,232,0.12);
@@ -76,14 +79,14 @@
   }
   :root[data-theme="light"] {
     color-scheme: light;
-    --bg: #f4f8fc;
+    --bg: #f7fafd;
     --surface: #ffffff;
-    --ink: #2a3542;
-    --ink-2: #5c6875;
-    --muted: #939daa;
-    --grid: #e9eef5;
-    --baseline: #d3dbe4;
-    --border: rgba(42,68,105,0.09);
+    --ink: #33404e;
+    --ink-2: #677386;
+    --muted: #98a2b0;
+    --grid: #edf1f7;
+    --baseline: #dbe2ea;
+    --border: rgba(50,80,120,0.08);
     --accent: #4a90e2;
     --s-drift: #9aa5b1;
     --s-disc: #4a90e2;
@@ -92,12 +95,13 @@
     --seg-rent: #35b58c;
     --seg-bread: #f2b04e;
     --seg-flat: #8f7fd9;
+    --seg-grat: #e87ba4;
     --good: #34ad63;
     --good-text: #1e7d47;
     --warning: #f5c04a;
     --critical: #e26d6d;
     --band: rgba(74,144,226,0.08);
-    --shadow: 0 1px 3px rgba(30,50,80,0.05), 0 10px 28px rgba(30,50,80,0.06);
+    --shadow: 0 1px 2px rgba(30,50,80,0.04), 0 12px 32px rgba(30,50,80,0.05);
   }
 
   * { box-sizing: border-box; }
@@ -134,7 +138,20 @@
   }
   .sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; max-width: 70ch; }
 
-  section { margin-top: 44px; }
+  section { margin-top: 52px; }
+
+  .callout {
+    margin-top: 26px; padding: 18px 20px; border-radius: 16px;
+    background: rgba(74,144,226,0.07); border: 1px solid rgba(74,144,226,0.25);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
+  }
+  .callout .c-text { flex: 1 1 380px; font-size: 14px; color: var(--ink); }
+  .callout .c-text strong { font-weight: 700; }
+  .callout a.c-btn {
+    flex: none; background: var(--accent); color: #fff; text-decoration: none;
+    font-size: 13.5px; font-weight: 650; padding: 10px 18px; border-radius: 10px;
+  }
+  .callout a.c-btn:hover { filter: brightness(1.07); }
 
   /* ---------- KPI tiles ---------- */
   .kpis {
@@ -142,7 +159,7 @@
     gap: 10px; margin-top: 26px;
   }
   .kpi {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
     padding: 16px 18px; box-shadow: var(--shadow);
   }
   .kpi .k-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
@@ -158,8 +175,8 @@
 
   /* ---------- controls ---------- */
   .panel {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 22px; box-shadow: var(--shadow);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+    padding: 24px; box-shadow: var(--shadow);
   }
   .scenarios { display: flex; flex-wrap: wrap; gap: 8px; }
   .scen-btn {
@@ -187,8 +204,8 @@
 
   /* ---------- charts ---------- */
   .chart-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 22px 22px 14px; margin-top: 14px; box-shadow: var(--shadow);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+    padding: 24px 24px 16px; margin-top: 14px; box-shadow: var(--shadow);
   }
   .chart-box { position: relative; }
   .chart-box svg { display: block; width: 100%; height: auto; }
@@ -226,6 +243,8 @@
   .bar-row .b-val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 12px; }
   .bar-row.total { border-top: 1px solid var(--grid); margin-top: 6px; padding-top: 8px; font-weight: 650; }
   .bar-row.total .b-label { color: var(--ink); }
+  .post-ret .bar-row { grid-template-columns: minmax(180px, 260px) 1fr 84px; }
+  .post-ret .goal-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 
   /* ---------- decisions ---------- */
   .decision { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--grid); }
@@ -261,10 +280,14 @@
     <div class="eyebrow">Private · Family planning model · July 2026</div>
     <h1>Our Family Wealth Plan</h1>
     <p class="lede">One household, two builders: <strong>Sumaya, 55</strong>, retiring from Parliament around <strong>December 2030</strong>, and <strong>Zubayr, 21</strong>, building toward <strong>R150k–200k/month by age 30</strong>. Household inflow <strong>R90,610/mo</strong>, expenses <strong>R64,821/mo</strong>. This page models three ways the next nine years can go — adjust the unknowns below and watch every number update.</p>
-    <p class="backlink"><a href="bond-attack.html">The Bond Attack — Zubayr’s R20,000/month mission →</a></p>
   </header>
 
   <div class="kpis" id="kpis"></div>
+
+  <div class="callout">
+    <div class="c-text"><strong>⚔️ The highest-leverage move: the Bond Attack.</strong> R20,000/month at the debt — with the units' rent joining in — kills every property loan by <strong>December 2030</strong>, the month Mum retires. R1.1m of interest stays in the family and R43,600/month comes back to your pocket.</div>
+    <a class="c-btn" href="bond-attack.html">Open the Bond Attack →</a>
+  </div>
 
   <section>
     <h2>Choose a path, set the unknowns</h2>
@@ -330,6 +353,14 @@
   </section>
 
   <section>
+    <h2>Life after the salary — the post-retirement income stack</h2>
+    <p class="sub">January 2031, assuming the Bond Attack lands and the family enters retirement debt-free. Gross figures — SARS takes roughly R5,000–8,000 across the pension and rentals depending on how expenses are structured.</p>
+    <div class="chart-card">
+      <div class="bar-list post-ret" id="post-ret"></div>
+    </div>
+  </section>
+
+  <section>
     <h2>Household investable assets to May 2035</h2>
     <p class="sub">TFSA, Oasis Crescent, Discovery savings, gold and new investing combined, growing at 9% nominal. The gap between the lines is the price of drifting — same family, same salaries, different habits.</p>
     <div class="chart-card">
@@ -351,8 +382,8 @@
   </section>
 
   <section>
-    <h2>The seven decisions, ranked</h2>
-    <p class="sub">More than fifteen business ideas were evaluated this year and none executed. These are the moves that actually change the landscape, in order of leverage per rand and per hour.</p>
+    <h2>The action plan</h2>
+    <p class="sub">Six phases from today to a debt-free retirement. Each one unlocks the next — and phase 1 is the only one that depends on willpower rather than paperwork.</p>
     <div class="panel" id="decisions"></div>
   </section>
 
@@ -397,9 +428,9 @@
     { key: "disc", name: "Discipline", colorVar: "--s-disc",
       desc: "Food discipline (+R10,714/mo), R5,000/mo extra into the bond from Jan 2027, 75% of surplus invested.",
       extra: 5000, food: true, saveRate: 0.75, mayaTarget: 2500, mayaBy: 18, side: false },
-    { key: "build", name: "Builder", colorVar: "--s-build",
-      desc: "Discipline plus Zubayr lands a side income (slider below), R8,000/mo extra into the bond, 80% invested.",
-      extra: 8000, food: true, saveRate: 0.80, mayaTarget: 5000, mayaBy: 30, side: true }
+    { key: "build", name: "Bond Attack", colorVar: "--s-build",
+      desc: "Discipline plus Zubayr's side income (slider below) funds R20,000/mo into the debt, 80% of surplus invested.",
+      extra: 20000, food: true, saveRate: 0.80, mayaTarget: 5000, mayaBy: 30, side: true }
   ];
 
   var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -479,8 +510,10 @@
       bondSeries.push(bal + flatBal);
       assetSeries.push(assets);
       if (m === RETIRE_M + 1) {
+        // Drag counts only the required instalments — the attack money is optional
+        var requiredPay = (bal > 0 ? BOND_PAY : 0) + (flatBal > 0 ? flatPmt : 0);
         mumSnap = { pension: p.pension, rent: rent, maya: maya, flat: flatRent,
-                    bondOwing: bal + flatBal > 0, bondPay: pay + fpay };
+                    bondOwing: bal + flatBal > 0, bondPay: requiredPay };
       }
     }
     return { bond: bondSeries, assets: assetSeries, payoffIdx: payoffIdx, mum: mumSnap, flatPmt: flatPmt };
@@ -567,7 +600,12 @@
     var host = document.getElementById("chart-mum");
     var W = 900, rowH = 56, padL = 96, padR = 20, padT = 30, padB = 28;
     var H = padT + SCEN.length * rowH + padB;
-    var maxV = 58000;
+    var gross = 0;
+    SCEN.forEach(function (s) {
+      var r = results[s.key].mum;
+      gross = Math.max(gross, r.pension + r.rent + r.flat + r.maya);
+    });
+    var maxV = Math.max(48000, Math.ceil(gross * 1.12 / 5000) * 5000);
     function x(v) { return padL + (v / maxV) * (W - padL - padR); }
 
     var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Sumaya’s net monthly income in January 2031 per scenario, against the R25,000 to R35,000 target band">';
@@ -575,10 +613,10 @@
     svg += '<rect x="' + x(25000) + '" y="' + (padT - 16) + '" width="' + (x(35000) - x(25000)) + '" height="' + (H - padT - padB + 16) + '" fill="' + css("--band") + '"/>';
     svg += '<text x="' + x(30000) + '" y="' + (padT - 20) + '" text-anchor="middle" font-size="11" font-weight="600" fill="' + css("--muted") + '">target R25k–35k</text>';
 
-    [0, 10000, 20000, 30000, 40000, 50000].forEach(function (gv) {
+    for (var gv = 0; gv <= maxV; gv += 10000) {
       svg += '<line x1="' + x(gv) + '" x2="' + x(gv) + '" y1="' + (padT - 6) + '" y2="' + (H - padB) + '" stroke="' + css("--grid") + '"/>';
       svg += '<text x="' + x(gv) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="11" fill="' + css("--muted") + '">' + fmtShort(gv) + "</text>";
-    });
+    }
 
     var segColors = { pension: css("--seg-pension"), rent: css("--seg-rent"), maya: css("--seg-bread"), flat: css("--seg-flat") };
 
@@ -646,17 +684,43 @@
     render("expense-bars", "Goes out each month", expense, css("--seg-pension"), "Total · surplus " + fmtR(25789), 64821);
   }
 
+  /* ---------- post-retirement income stack ---------- */
+  function postRetirement(p) {
+    var rentals = RENT0 * Math.pow(1 + INFL, 4.5);
+    var units = p.flatOn ? p.flatRent * Math.pow(1 + INFL, 3.5) : 0;
+    var bread = 5000 * Math.pow(1 + INFL, 2);
+    var gratNet = 901800, gratIncome = gratNet * 0.09 / 12;
+    var rows = [
+      ["GEPF pension (for life, inflation-linked)", p.pension, css("--seg-pension")],
+      ["Existing rentals — Mariam & Tasneem", rentals, css("--seg-rent")],
+      ["The two new units", units, css("--seg-flat")],
+      ["Maya Baker bread (at full capacity)", bread, css("--seg-bread")],
+      ["Gratuity invested — R901,800 net at 9%", gratIncome, css("--seg-grat")]
+    ].filter(function (r) { return r[1] > 0; });
+    var total = rows.reduce(function (t, r) { return t + r[1]; }, 0);
+    var max = Math.max.apply(null, rows.map(function (r) { return r[1]; }));
+
+    var html = "";
+    rows.forEach(function (r) {
+      html += '<div class="bar-row"><span class="b-label">' + r[0] + '</span><span class="b-track"><span class="b-fill" style="width:' + (r[1] / max * 100).toFixed(1) + "%;background:" + r[2] + '"></span></span><span class="b-val">' + fmtR(r[1]) + "</span></div>";
+    });
+    html += '<div class="bar-row total"><span class="b-label">Household income · no salary, no debt</span><span></span><span class="b-val">' + fmtR(total) + "/mo</span></div>";
+    html += '<div class="goal-chips">' +
+      '<span class="pill good">Mum’s R25k–35k target: cleared by the pension + rentals alone ✓</span>' +
+      '<span class="pill ' + (total >= 50000 ? "good" : "warn") + '">R50k/mo passive goal: ' + (total >= 50000 ? "reached ✓" : fmtR(50000 - total) + " short") + "</span>" +
+      "</div>";
+    document.getElementById("post-ret").innerHTML = html;
+  }
+
   /* ---------- decisions ---------- */
   function decisions() {
     var items = [
-      ["GEPF figures are in: R19,900/mo + R979,000 gratuity ✓", "The biggest unknown is resolved. The gratuity nets ≈ R901,800 after lump-sum tax (first R550,000 tax-free, the balance at 18%). Next moves: get the estimate in writing from GEPF, confirm GEMS medical aid continuation with Parliament HR, and weigh retiring at 60 instead of 59 — the 0.33%-per-month early penalty means each year earlier costs ~4% of both the pension and the gratuity, for life.", "Pension + rentals + units ≈ R56,000/mo at Jan 2031 — target reached"],
-      ["Kill the bond by retirement — gratuity as the final blow", "R1,137,218 owing at 10.56% (28 May 2026 statement) with 139 months to run. Extra payments of R5,000–8,000/month from January 2027 cut the balance at retirement to roughly R360,000–540,000 — small enough to settle in one move from the tax-free portion of the GEPF gratuity. Clearing it by 2030 without the gratuity would take ~R14,000/month extra. Every rand prepaid earns a guaranteed 10.56% after tax; keep the R40,000 cash as an emergency float until the GEPF figure is known.", "≈ R15,315/mo freed at exactly the moment the salary stops"],
-      ["Build the two rental units — the numbers work", "70 m² split into two separate-entrance units at R7,500 each = R15,000/month. At R12,000/m² the build is R840,000 with a 15-year repayment of ~R9,317/month — self-funding with ~R5,700/month to spare, and one occupied unit alone covers ~80% of the repayment. Two tenants beat one expensive tenant: deeper demand, faster to fill, half the vacancy risk — but R7,500 must be proven against live listings in the area, since at R6,500 the margin is still a healthy ~R3,700. Guard-rails: two kitchens and bathrooms usually price at R13–14k/m², so get fixed quotes; Standard Bank must consent (the property is their security); City of Cape Town plan approval and NHBRC before any money is borrowed; 10–15% contingency; prepaid electricity meters and proper tenant vetting.", "+R15,000/mo income for ~R9,317/mo repayment — self-funding from month one"],
-      ["Do not buy the vehicle yet", "The bakkie costs R8,150–9,300/month before it earns a rand — almost exactly the entire bond-acceleration budget. The pattern in the vehicle discussion (R160k → R217k → R300k, all before revenue) is the same evaluation loop, wearing wheels. Rule: the business pays for the vehicle, never the reverse.", "Protects ≈ R100k+/yr from premature commitment"],
-      ["Fix the TFSA in twenty minutes", "Sell Satrix Shariah Top 40 and split the proceeds between Satrix Top 40 and S&P 500; switch every dividend from cash to reinvest; set a R1,000/month debit order. The R500,000 lifetime limit makes early months disproportionately valuable — a rand contributed at 21 has 40+ years of tax-free compounding ahead of it. Stop contributing to the taxable ZAR account entirely.", "Decades of tax-free compounding, started this week"],
-      ["Food discipline is worth R128,568 a year", "Groceries (R11,475) plus takeaways (R4,919) trimmed to a planned budget releases R10,714/month — which funds the entire bond acceleration and the TFSA debit order with change. It’s the only line on the statement that moves this much without anyone earning more.", "+R10,714/mo — funds decisions 2 and 4 entirely"],
-      ["Run one income experiment — not fifteen evaluations", "The Builder scenario’s fuel is a single test: add the AI-automation offer to the existing Instantly sequence, send to 500 accounting/FSP leads, judge by replies in 30 days. Apify and Instantly are already paid for, so the marginal cost is zero. Fifteen ideas were evaluated this year and none launched — the blocker is a first send, not more information.", "First side income within 1–3 months at R0 marginal cost"],
-      ["Do the paperwork that protects all of it", "Two updated wills — the rentals and the house sit in Sumaya’s name, and intestate succession would freeze the family’s largest assets at the worst possible moment. Boring, cheap, and more important than any optimisation above if the unexpected happens.", "Protects the entire balance sheet"]
+      ["Now — this week", "The free wins, all doable in days: trim food to a planned budget (+R10,714/month — this line funds half the plan by itself); fix the TFSA in twenty minutes (sell Shariah Top 40 into Top 40 + S&P 500, switch dividends to reinvest, debit orders toward the new R46,000/year limit); get the GEPF estimate of R19,900/mo + R979,000 in writing and confirm GEMS continuation with Parliament HR; book the two wills — the house and rentals sit in Mum’s name and intestate succession would freeze everything. And no vehicle: at R8,150–9,300/month break-even it would eat half the Bond Attack before earning a rand.", "Costs nothing, funds everything downstream"],
+      ["Phase 1 · Aug–Dec 2026 — land the income", "One experiment, not fifteen evaluations: add the AI-automation offer to the existing Instantly sequence and send it to 500 accounting/FSP leads. Apify and Instantly are already paid for — the marginal cost is zero and the verdict arrives in 30 days of replies. Target R25,000–27,000/month gross, which clears the R20,000 attack after tax. Start attacking the month the first money lands, at whatever size it allows — even R5,000/month while ramping. This is the only phase that depends on execution; everything after it is arithmetic.", "Fuels the R20,000/mo Bond Attack"],
+      ["Phase 2 · Sep 2026–Jan 2027 — secure the build", "Two fixed-price quotes for the 70 m² two-unit build (two kitchens and bathrooms usually price at R13–14k/m², so interrogate anything cheaper), City of Cape Town plan approval, NHBRC enrolment, and Standard Bank’s consent plus a further advance at the bond rate — their sign-off is both a legal gate and the cheapest money available. Budget 10–15% contingency. Draw and break ground January 2027.", "R840k at 10.56% buying R15,000/mo of income"],
+      ["Phase 3 · 2027–2029 — the full attack", "Tenants in by July 2027 at R7,500 each with prepaid meters, deposits and hard vetting. From then on everything hits the debt: the R20,000 attack plus the full R15,000 rent, avalanche-style — home bond first. It dies around November 2029, and its whole instalment rolls onto the building loan the next month.", "≈ R1.1m of interest stays in the family"],
+      ["Phase 4 · 2030 — the kill shot", "The building loan dies around December 2030 — the month the salary stops. Mum retires owning the house and both rental units outright. Worth weighing: working to her 60th birthday adds ~4% to both the pension and the gratuity, for life — likely her best-paid year ever.", "All property debt dead the month the salary stops"],
+      ["Phase 5 · 2031 onward — redeploy", "The gratuity (≈ R901,800 net) deploys instead of settling debt: ~R150,000 emergency float, ~R240,000 into RSA Retail Bonds (the R23,800 interest exemption makes that slice tax-free), the balance into REIT/equity ETFs plus both TFSAs at R46,000/year each. The R43,600/month of freed debt payments pivots to Zubayr’s wealth engine — the road to R150,000–200,000/month by 30 starts here with a clean balance sheet behind it.", "≈ R68,000/mo household income — no salary, no debt"]
     ];
     document.getElementById("decisions").innerHTML = items.map(function (d, i) {
       return '<div class="decision"><div class="d-num">' + (i + 1) + "</div><div><h3>" + d[0] + "</h3><p>" + d[1] + '</p><div class="impact">' + d[2] + "</div></div></div>";
@@ -669,7 +733,7 @@
       ["Get the GEPF estimate in writing (R19,900/mo + R979,000)", "Official benefit statement — plus confirm GEMS continuation with Parliament HR"],
       ["Sell Satrix Shariah Top 40; rebalance 50/50 Top 40 & S&P 500", "EasyEquities — 5 minutes"],
       ["Switch TFSA dividends from cash to reinvest", "EasyEquities settings, all holdings"],
-      ["Set up R1,000/mo TFSA debit order", "Into the TFSA only — not the ZAR account"],
+      ["Set up TFSA debit orders (limit is now R46,000/yr each)", "Into the TFSA only — not the ZAR account; start at R1,000/mo and scale"],
       ["Add AI-automation offer to the Instantly sequence and send to 500 leads", "Same accountant/FSP list — judge by replies in 30 days"],
       ["Get two fixed-price quotes + plans for the two rental units", "City of Cape Town approval, NHBRC and Standard Bank consent before borrowing"],
       ["Book will drafting for both Zubayr and Sumaya", "Bank or attorney — the rentals make this urgent"],
@@ -709,7 +773,7 @@
       kpi("Monthly surplus · today", fmtR(surplus0), s.food ? "with food discipline" : "current spending",
           s.food ? ["good", "+" + fmtR(10714) + " vs drift"] : ["warn", "R10,714/mo left on the table"]) +
       kpi("All property debt paid off", payoff, "extra " + fmtR(s.extra) + "/mo from Jan 2027" + (p.flatOn ? " · incl. flat loan" : ""),
-          beforeRet ? ["good", "before Mum retires ✓"] : (r.payoffIdx >= 0 && r.payoffIdx <= RETIRE_M + 3) ? ["warn", "just after retirement"] : ["crit", "years into retirement"]) +
+          beforeRet ? ["good", "before Mum retires ✓"] : (r.payoffIdx >= 0 && r.payoffIdx <= RETIRE_M + 12) ? ["warn", (r.payoffIdx - RETIRE_M) + " months after retirement"] : ["crit", "years into retirement"]) +
       kpi("Mum’s income · Jan 2031", fmtR(mumNet) + "/mo", "target R25k–35k · pension set to " + fmtShort(p.pension), mumPill) +
       flatKpi +
       kpi("Investable assets · May 2035", fmtShort(assets35), "9% nominal · " + Math.round(s.saveRate * 100) + "% of surplus invested",
@@ -758,6 +822,7 @@
     SCEN.forEach(function (s) { results[s.key] = simulate(s, p); });
 
     kpis(results, selected, p);
+    postRetirement(p);
 
     var legendHtml = SCEN.map(function (s) {
       return '<span><span class="swatch" style="background:var(' + s.colorVar + ')"></span>' + s.name + "</span>";
